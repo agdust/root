@@ -1,8 +1,8 @@
-import { accept } from '../../../model/Acceptor';
-import Client from '../../../model/Client';
-import Pieces from '../../../model/Piece';
-import Suit from '../../../model/Suit';
-import { InvalidStartClearing } from '../../../model/factionData/rejections';
+import { accept } from '../../../../model/Acceptor';
+import Client from '../../../../model/Client';
+import Pieces from '../../../../model/Piece';
+import Suit from '../../../../model/Suit';
+import { InvalidStartClearing } from '../../../../model/factionData/rejections';
 
 async function * setCultClearing (this: Client, clearingIndex: number, threadId?: string): AsyncIterableIterator<void> {
   const adjacentClearings = this.game.board.adjacentClearings(clearingIndex);

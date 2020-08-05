@@ -1,8 +1,8 @@
-import Clearing from '../../../model/board/Clearing';
-import Faction from '../../../model/Faction';
-import Client from '../../../model/Client';
-import Suit from '../../../model/Suit';
-import Pieces, { Piece } from '../../../model/Piece';
+import Clearing from '../../../../model/board/Clearing';
+import Faction from '../../../../model/Faction';
+import Client from '../../../../model/Client';
+import Suit from '../../../../model/Suit';
+import Pieces, { Piece } from '../../../../model/Piece';
 
 export default async function * returnPiece (this: Client, piece: Piece, clearing: Clearing, remover: Faction): AsyncIterableIterator<void> {
   if (piece.faction) {

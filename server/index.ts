@@ -5,7 +5,7 @@ import compress from 'koa-compress';
 import upgrade from 'koa-upgrade';
 import uuid from 'uuid/v4';
 
-import Client from './model/Client';
+import Client from '../model/Client';
 import clients from './store/clients';
 import game from './game';
 

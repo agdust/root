@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
 import { game } from '../../store';
-import Client from '../../model/Client';
-import Faction from '../../model/Faction';
+import Client from '../../../model/Client';
+import Faction from '../../../model/Faction';
 
 export async function * birdsong (this: Client, faction: Faction): AsyncIterableIterator<void> {
   // TODO: check victory conditions

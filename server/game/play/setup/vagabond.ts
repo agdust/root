@@ -1,9 +1,9 @@
-import { accept } from '../../../model/Acceptor';
+import { accept } from '../../../../model/Acceptor';
 import shuffle from '../../../util/shuffle';
-import Client from '../../../model/Client';
-import Faction from '../../../model/Faction';
-import Characters from '../../../model/Character';
-import Piece from '../../../model/Piece';
+import Client from '../../../../model/Client';
+import Faction from '../../../../model/Faction';
+import Characters from '../../../../model/Character';
+import Piece from '../../../../model/Piece';
 
 export default async function * setupVagabond(this: Client, faction: Faction.vagabond | Faction.vagabond2) {
   yield * accept.call(this,

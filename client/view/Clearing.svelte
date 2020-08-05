@@ -2,7 +2,7 @@
 import PRNG from 'prng';
 import images from '../image/token/token.*.png';
 import Token from './Token.svelte';
-import Pieces, { Piece as PieceT } from '../model/Piece';
+import Pieces, { Piece as PieceT } from '../../model/Piece';
 import Piece from './Piece';
 
 export let seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);

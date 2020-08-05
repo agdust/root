@@ -1,9 +1,9 @@
-import { setRejectionHandler } from '../model/Acceptor';
+import { setRejectionHandler } from '../../model/Acceptor';
 import identify from './identify';
 import chooseGame from './chooseGame';
 import lobby, { Leave } from './lobby';
 import start from './start';
-import Client from '../model/Client';
+import Client from '../../model/Client';
 import {
   acceptor as acceptorStore,
   game as gameStore,

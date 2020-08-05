@@ -1,6 +1,6 @@
-import Rejection from '../../../model/Rejection';
-import Suit from '../../../model/Suit';
-import Faction from '../../../model/Faction';
+import Rejection from '../../../../model/Rejection';
+import Suit from '../../../../model/Suit';
+import Faction from '../../../../model/Faction';
 
 export class InvalidCardSuit extends Rejection {
   constructor(threadId: string, suit: Suit) {

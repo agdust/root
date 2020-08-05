@@ -1,4 +1,4 @@
-import Client from '../../model/Client';
+import Client from '../../../model/Client';
 
 export default async function * ready (this: Client, _: {}, threadId: string): AsyncIterableIterator<void> {
   if (!this.game) {

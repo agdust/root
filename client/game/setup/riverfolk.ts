@@ -1,10 +1,10 @@
 import { get } from 'svelte/store';
 import borrow from '../../util/borrow';
 import { game, prompts } from '../../store';
-import { accept } from '../../model/Acceptor';
-import Client from '../../model/Client';
-import Clearing from '../../model/board/Clearing';
-import { ServiceCosts } from '../../model/factionData/Riverfolk';
+import { accept } from '../../../model/Acceptor';
+import Client from '../../../model/Client';
+import Clearing from '../../../model/board/Clearing';
+import { ServiceCosts } from '../../../model/factionData/Riverfolk';
 
 export default async function * setupRiverfolk(this: Client) {
   borrow(game)(game => {

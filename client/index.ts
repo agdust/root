@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4';
 import App from './App.svelte';
-import Client from './model/Client';
+import Client from '../model/Client';
 import game from './game';
 
 const socket = new WebSocket(`ws://${window.location.host}/play`);

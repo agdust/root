@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
-import { accept } from '../../model/Acceptor';
-import Faction from '../../model/Faction';
+import { accept } from '../../../model/Acceptor';
+import Faction from '../../../model/Faction';
 import { game, username } from '../../store';
 import update from '../update';
 import setupEyrie from './eyrie';
@@ -8,7 +8,7 @@ import setupMarquise from './marquise';
 import setupVagabond from './vagabond';
 import setupRiverfolk from './riverfolk';
 import setupCult from './cult';
-import Client from '../../model/Client';
+import Client from '../../../model/Client';
 
 async function * setupFaction(this: Client, faction: Faction) {
   switch (faction) {

@@ -3,4 +3,6 @@
 /.cache/
 /server/**/*.js
 /server/**/*.d.ts
+/model/**/*.js
+/model/**/*.d.ts
 /.idea/

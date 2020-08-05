@@ -1,8 +1,8 @@
 <script>
 import { game, prompts } from '../../store';
-import Message from '../../model/Message';
-import Pieces from '../../model/Piece';
-import Faction from '../../model/Faction';
+import Message from '../../../model/Message';
+import Pieces from '../../../model/Piece';
+import Faction from '../../../model/Faction';
 import Box from '../component/Box.svelte';
 import Text from '../component/Text.svelte';
 import Piece from '../Piece.svelte';

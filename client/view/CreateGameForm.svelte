@@ -1,9 +1,9 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import Text from './component/Text.svelte';
-import Message from '../model/Message';
-import GameMap from '../model/GameMap';
-import Faction from '../model/Faction';
+import Message from '../../model/Message';
+import GameMap from '../../model/GameMap';
+import Faction from '../../model/Faction';
 
 const dispatch = createEventDispatcher();
 

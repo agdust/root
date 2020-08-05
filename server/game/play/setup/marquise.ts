@@ -1,7 +1,7 @@
-import { accept } from '../../../model/Acceptor';
-import Client from '../../../model/Client';
-import Piece from '../../../model/Piece';
-import Rejection from '../../../model/Rejection';
+import { accept } from '../../../../model/Acceptor';
+import Client from '../../../../model/Client';
+import Piece from '../../../../model/Piece';
+import Rejection from '../../../../model/Rejection';
 
 class InvalidClearingForKeep extends Rejection {
   constructor(threadId: string) {

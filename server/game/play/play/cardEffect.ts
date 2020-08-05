@@ -1,11 +1,11 @@
-import Clearing from '../../../model/board/Clearing';
-import Faction from '../../../model/Faction';
-import Client from '../../../model/Client';
-import Suit from '../../../model/Suit';
-import Leader from '../../../model/Leader';
-import Rejection from '../../../model/Rejection';
-import { Item } from '../../../model/Item';
-import { Card } from '../../../model/Card';
+import Clearing from '../../../../model/board/Clearing';
+import Faction from '../../../../model/Faction';
+import Client from '../../../../model/Client';
+import Suit from '../../../../model/Suit';
+import Leader from '../../../../model/Leader';
+import Rejection from '../../../../model/Rejection';
+import { Item } from '../../../../model/Item';
+import { Card } from '../../../../model/Card';
 import returnPiece from './returnPiece';
 
 class NotEnoughItems extends Rejection {

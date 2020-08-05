@@ -1,11 +1,11 @@
 import { get } from 'svelte/store';
 import borrow from '../../util/borrow';
 import { game, prompts } from '../../store';
-import { accept } from '../../model/Acceptor';
-import Characters from '../../model/Character';
-import Faction from '../../model/Faction';
-import Client from '../../model/Client';
-import ForestZone from '../../model/board/ForestZone';
+import { accept } from '../../../model/Acceptor';
+import Characters from '../../../model/Character';
+import Faction from '../../../model/Faction';
+import Client from '../../../model/Client';
+import ForestZone from '../../../model/board/ForestZone';
 import cardImages from '../../image/card/card-vagabond_character-front.*.jpg';
 import cardBack from '../../image/card/card-vagabond_character-back.jpg';
 

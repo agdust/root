@@ -1,6 +1,6 @@
 <script>
 import { game, username, prompts, acceptor } from '../store';
-import Message from '../model/Message';
+import Message from '../../model/Message';
 import ClearingPrompt from './ClearingPrompt.svelte';
 
 export let client;

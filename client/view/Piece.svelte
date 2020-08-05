@@ -1,5 +1,5 @@
 <script>
-import Pieces from '../model/Piece';
+import Pieces from '../../model/Piece';
 import tokenVector from '../image/token/token.*.svg';
 import tokenImages from '../image/token/token.*.png';
 import Token from './Token.svelte';

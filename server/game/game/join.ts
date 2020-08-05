@@ -1,7 +1,7 @@
 import games from '../../store/games';
-import Rejection from '../../model/Rejection';
-import Client from '../../model/Client';
-import { accept } from '../../model/Acceptor';
+import Rejection from '../../../model/Rejection';
+import Client from '../../../model/Client';
+import { accept } from '../../../model/Acceptor';
 import ready from './ready';
 import unready from './unready';
 import leave from './leave';

@@ -1,12 +1,12 @@
 import { get } from 'svelte/store';
 import { game, prompts } from '../../store';
-import { accept } from '../../model/Acceptor';
+import { accept } from '../../../model/Acceptor';
 import locate from '../../util/locate';
-import Leader from '../../model/Leader';
-import Piece from '../../model/Piece';
-import Leaders from '../../model/Leader';
-import Client from '../../model/Client';
-import Clearing from '../../model/board/Clearing';
+import Leader from '../../../model/Leader';
+import Piece from '../../../model/Piece';
+import Leaders from '../../../model/Leader';
+import Client from '../../../model/Client';
+import Clearing from '../../../model/board/Clearing';
 import leaderImages from '../../image/card/card-eyrie_leader-front.*.jpg';
 import back from '../../image/card/card-eyrie_leader-back.jpg';
 

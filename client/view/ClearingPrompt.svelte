@@ -4,7 +4,9 @@ export let y;
 export let scale;
 </script>
 
-<div class='circle' style={`left: ${x * scale}px; top: ${y * scale}px; transform: translate(-50%, -50%) scale(${scale})`} on:click />
+<div class='circle'
+     style={`left: ${x * scale}px; top: ${y * scale}px; transform: translate(-50%, -50%) scale(${scale})`}
+     on:click></div>
 
 <style>
 .circle {

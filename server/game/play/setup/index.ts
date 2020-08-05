@@ -1,6 +1,6 @@
-import { accept } from '../../../model/Acceptor';
-import Faction from '../../../model/Faction';
-import Client from '../../../model/Client';
+import { accept } from '../../../../model/Acceptor';
+import Faction from '../../../../model/Faction';
+import Client from '../../../../model/Client';
 import setupAlliance from './alliance';
 import setupEyrie from './eyrie';
 import setupMarquise from './marquise';

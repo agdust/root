@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
-import { accept } from '../model/Acceptor';
-import Faction from '../model/Faction';
-import Client from '../model/Client';
+import { accept } from '../../model/Acceptor';
+import Faction from '../../model/Faction';
+import Client from '../../model/Client';
 import { game, username, screen } from '../store';
 import setup from './setup';
 import play from './play';

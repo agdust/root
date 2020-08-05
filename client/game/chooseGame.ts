@@ -1,7 +1,7 @@
-import { accept } from '../model/Acceptor';
+import { accept } from '../../model/Acceptor';
 import { game as gameStore } from '../store';
-import { Settings } from '../model/Game';
-import Client from '../model/Client';
+import { Settings } from '../../model/Game';
+import Client from '../../model/Client';
 
 export default async function * chooseGame(this: Client) {
   const game = yield * accept.call(this,

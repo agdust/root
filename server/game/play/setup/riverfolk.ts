@@ -1,7 +1,7 @@
-import { accept } from '../../../model/Acceptor';
-import Client from '../../../model/Client';
-import Rejection from '../../../model/Rejection';
-import { ServiceCosts } from '../../../model/factionData/Riverfolk';
+import { accept } from '../../../../model/Acceptor';
+import Client from '../../../../model/Client';
+import Rejection from '../../../../model/Rejection';
+import { ServiceCosts } from '../../../../model/factionData/Riverfolk';
 
 class NotARiver extends Rejection {
   constructor(threadId: string) {

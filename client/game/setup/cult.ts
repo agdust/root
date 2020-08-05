@@ -1,11 +1,11 @@
 import { get } from 'svelte/store';
 import { game, prompts } from '../../store';
-import { accept } from '../../model/Acceptor';
+import { accept } from '../../../model/Acceptor';
 import locate from '../../util/locate';
-import Client from '../../model/Client';
-import Piece from '../../model/Piece';
-import Suit from '../../model/Suit';
-import Clearing from '../../model/board/Clearing';
+import Client from '../../../model/Client';
+import Piece from '../../../model/Piece';
+import Suit from '../../../model/Suit';
+import Clearing from '../../../model/board/Clearing';
 
 export default async function * setupCult(this: Client) {
   if (!locate.call(get(game)!.board, Piece.cult.warrior)) {

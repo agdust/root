@@ -1,6 +1,6 @@
-import { Piece } from '../model/Piece';
-import Clearing from '../model/board/Clearing';
-import Board from '../model/board/Board';
+import { Piece } from '../../model/Piece';
+import Clearing from '../../model/board/Clearing';
+import Board from '../../model/board/Board';
 
 export default function locate (this: Board, piece: Piece): Clearing | undefined {
   return this.clearings

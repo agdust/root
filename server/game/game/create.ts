@@ -1,8 +1,8 @@
 import games from '../../store/games';
 import join from './join';
-import Rejection from '../../model/Rejection';
-import Game, { Settings } from '../../model/Game';
-import Client from '../../model/Client';
+import Rejection from '../../../model/Rejection';
+import Game, { Settings } from '../../../model/Game';
+import Client from '../../../model/Client';
 
 class GameAlreadyExists extends Rejection {
   constructor(threadId: string, name: string) {

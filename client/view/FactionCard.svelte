@@ -5,7 +5,7 @@ import Alliance from './faction/Alliance.svelte';
 import Vagabond from './faction/Vagabond.svelte';
 import Riverfolk from './faction/Riverfolk.svelte';
 import Cult from './faction/Cult.svelte';
-import Faction from '../model/Faction';
+import Faction from '../../model/Faction';
 
 export let width, height;
 export let faction, client;

@@ -4,8 +4,8 @@ import Box from './component/Box.svelte';
 import Text from './component/Text.svelte';
 import Picker from './component/Picker.svelte';
 import images from '../image/card-*-{front,back}.jpg';
-import Message from '../model/Message';
-import Faction from '../model/Faction';
+import Message from '../../model/Message';
+import Faction from '../../model/Faction';
 
 let flips = $game.factions.map(() => false);
 $: factions = $game.factions

@@ -1,5 +1,5 @@
-import clients from '../store/clients';
-import games from '../store/games';
+import clients from '../server/store/clients';
+import games from '../server/store/games';
 import Player from './Player';
 import Client from './Client';
 import Faction from './Faction';
@@ -12,7 +12,7 @@ import Message from './Message';
 import Forest from './board/Forest';
 import GameMap from './GameMap';
 import Time from './Time';
-import shuffle from '../util/shuffle';
+import shuffle from '../server/util/shuffle';
 import createFaction from './factionData';
 
 import Alliance from './factionData/Alliance';

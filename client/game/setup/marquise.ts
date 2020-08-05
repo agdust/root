@@ -1,11 +1,11 @@
 import { get } from 'svelte/store';
 import borrow from '../../util/borrow';
 import { game, prompts } from '../../store';
-import { accept } from '../../model/Acceptor';
+import { accept } from '../../../model/Acceptor';
 import locate from '../../util/locate';
-import Piece from '../../model/Piece';
-import Client from '../../model/Client';
-import Clearing from '../../model/board/Clearing';
+import Piece from '../../../model/Piece';
+import Client from '../../../model/Client';
+import Clearing from '../../../model/board/Clearing';
 
 export default async function * setupMarquise(this: Client) {
   let keepClearing = locate.call(get(game)!.board, Piece.marquise.keep);

@@ -1,12 +1,12 @@
-import Client from '../../../model/Client';
-import Faction from '../../../model/Faction';
-import Rejection from '../../../model/Rejection';
-import Time from '../../../model/Time';
-import Suit from '../../../model/Suit';
-import Clearing from '../../../model/board/Clearing';
-import Pieces, { Piece } from '../../../model/Piece';
+import Client from '../../../../model/Client';
+import Faction from '../../../../model/Faction';
+import Rejection from '../../../../model/Rejection';
+import Time from '../../../../model/Time';
+import Suit from '../../../../model/Suit';
+import Clearing from '../../../../model/board/Clearing';
+import Pieces, { Piece } from '../../../../model/Piece';
 import { InvalidCardSuit, NoTargetsForBattle, Cancel } from './rejections';
-import { accept } from '../../../model/Acceptor';
+import { accept } from '../../../../model/Acceptor';
 import { birdsong, daylight, evening, craft, battle as commonBattle, cancel } from './common';
 
 class NoSawmill extends Rejection {

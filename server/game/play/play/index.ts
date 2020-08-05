@@ -1,6 +1,6 @@
-import { accept } from '../../../model/Acceptor';
-import Faction from '../../../model/Faction';
-import Client from '../../../model/Client';
+import { accept } from '../../../../model/Acceptor';
+import Faction from '../../../../model/Faction';
+import Client from '../../../../model/Client';
 import marquiseTurn from './marquise';
 
 async function * turn (this: Client, faction: Faction): AsyncIterableIterator<void> {

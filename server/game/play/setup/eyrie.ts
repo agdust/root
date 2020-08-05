@@ -1,8 +1,8 @@
-import { accept } from '../../../model/Acceptor';
-import Piece from '../../../model/Piece';
-import Leader from '../../../model/Leader';
-import Client from '../../../model/Client';
-import { InvalidStartClearing } from '../../../model/factionData/rejections';
+import { accept } from '../../../../model/Acceptor';
+import Piece from '../../../../model/Piece';
+import Leader from '../../../../model/Leader';
+import Client from '../../../../model/Client';
+import { InvalidStartClearing } from '../../../../model/factionData/rejections';
 
 async function * placeEyrieWarriors(this: Client, clearingIndex: number, threadId: string): AsyncIterableIterator<void> {
   this.game.factionData.eyrie!.placeWarriors(this.game, clearingIndex, 6, threadId);

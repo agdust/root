@@ -1,15 +1,15 @@
-import { accept } from '../../../model/Acceptor';
+import { accept } from '../../../../model/Acceptor';
 import subset from '../../../util/subset';
-import Rejection from '../../../model/Rejection';
-import Game from '../../../model/Game';
-import Client from '../../../model/Client';
-import Faction from '../../../model/Faction';
-import Leader from '../../../model/Leader';
-import Pieces, { Piece } from '../../../model/Piece';
-import Suit from '../../../model/Suit';
-import { Item } from '../../../model/Item';
-import Clearing from '../../../model/board/Clearing';
-import { Card } from '../../../model/Card';
+import Rejection from '../../../../model/Rejection';
+import Game from '../../../../model/Game';
+import Client from '../../../../model/Client';
+import Faction from '../../../../model/Faction';
+import Leader from '../../../../model/Leader';
+import Pieces, { Piece } from '../../../../model/Piece';
+import Suit from '../../../../model/Suit';
+import { Item } from '../../../../model/Item';
+import Clearing from '../../../../model/board/Clearing';
+import { Card } from '../../../../model/Card';
 import { Cancel, NoPiecesOfFaction } from './rejections';
 import cardEffect from './cardEffect';
 

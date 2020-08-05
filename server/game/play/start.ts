@@ -1,5 +1,5 @@
-import { accept } from '../../model/Acceptor';
-import Client from '../../model/Client';
+import { accept } from '../../../model/Acceptor';
+import Client from '../../../model/Client';
 import chooseFaction from './chooseFaction';
 import setup from './setup/index';
 import play from './play/index';

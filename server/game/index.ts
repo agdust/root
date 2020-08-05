@@ -1,9 +1,9 @@
-import { accept } from '../model/Acceptor';
+import { accept } from '../../model/Acceptor';
 import identify from './identify';
 import create from './game/create';
 import join from './game/join';
 import { Leave } from './game/leave';
-import Client from '../model/Client';
+import Client from '../../model/Client';
 
 async function * game (this: Client) {
   yield * accept.call(this, identify);

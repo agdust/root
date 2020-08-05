@@ -1,7 +1,7 @@
-import { accept, Abort } from '../model/Acceptor';
+import { accept, Abort } from '../../model/Acceptor';
 import start from './start';
 import update from './update';
-import Client from '../model/Client';
+import Client from '../../model/Client';
 
 export class Leave extends Abort {}
 

@@ -1,12 +1,12 @@
 import { get } from 'svelte/store';
 import borrow from '../../util/borrow';
 import { game, username, prompts } from '../../store';
-import { accept } from '../../model/Acceptor';
-import Client from '../../model/Client';
-import Pieces, { Piece } from '../../model/Piece';
-import Clearing from '../../model/board/Clearing';
-import Faction from '../../model/Faction';
-import Time from '../../model/Time';
+import { accept } from '../../../model/Acceptor';
+import Client from '../../../model/Client';
+import Pieces, { Piece } from '../../../model/Piece';
+import Clearing from '../../../model/board/Clearing';
+import Faction from '../../../model/Faction';
+import Time from '../../../model/Time';
 
 import { birdsong, daylight, evening } from './common';
 

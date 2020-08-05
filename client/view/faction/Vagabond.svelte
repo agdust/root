@@ -2,8 +2,8 @@
 import { game } from '../../store';
 import characterImages from '../../image/card/card-vagabond_character-front.*.jpg';
 import tokenImages from '../../image/token/token.*.png';
-import Faction from '../../model/Faction';
-import { Item } from '../../model/Item';
+import Faction from '../../../model/Faction';
+import { Item } from '../../../model/Item';
 import Token from '../Token.svelte';
 import Deck from '../Deck.svelte';
 

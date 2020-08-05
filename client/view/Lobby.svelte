@@ -1,7 +1,7 @@
 <script>
 import Box from './component/Box.svelte';
 import Text from './component/Text.svelte';
-import Message from '../model/Message';
+import Message from '../../model/Message';
 import { game } from '../store';
 
 export let client;

@@ -1,6 +1,6 @@
 <script>
 import Deck from './Deck.svelte';
-import Message from '../model/Message';
+import Message from '../../model/Message';
 
 let containerWidth;
 
