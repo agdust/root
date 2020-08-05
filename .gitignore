@@ -3,3 +3,4 @@
 /.cache/
 /server/**/*.js
 /server/**/*.d.ts
+/.idea/
