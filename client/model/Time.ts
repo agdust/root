@@ -1,1 +1,7 @@
-../../server/model/Time.ts
+enum Time {
+  birdsong,
+  daylight,
+  evening,
+}
+
+export default Time;

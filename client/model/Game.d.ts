@@ -1,1 +1,80 @@
-../../server/model/Game.d.ts
+import Player from './Player';
+import Client from './Client';
+import Faction from './Faction';
+import Board from './board/Board';
+import { Card } from './Card';
+import { Item } from './Item';
+import { Quest } from './Quest';
+import GameMap from './GameMap';
+import Time from './Time';
+import Alliance from './factionData/Alliance';
+import Cult from './factionData/Cult';
+import Eyrie from './factionData/Eyrie';
+import Marquise from './factionData/Marquise';
+import MarquiseBot from './factionData/MarquiseBot';
+import Riverfolk from './factionData/Riverfolk';
+import Vagabond from './factionData/Vagabond';
+declare type Assignment = 'auto' | 'manual';
+export declare type Settings = {
+    factions?: Faction[];
+    assignment?: Assignment;
+    map?: GameMap;
+};
+export default class Game {
+    name: string;
+    assignment: Assignment;
+    _clients: {
+        [username: string]: string;
+    };
+    playerNames: string[];
+    factions: Faction[];
+    factionData: {
+        marquise?: Marquise;
+        eyrie?: Eyrie;
+        alliance?: Alliance;
+        vagabond?: Vagabond;
+        vagabond2?: Vagabond;
+        cult?: Cult;
+        riverfolk?: Riverfolk;
+        marquise_bot?: MarquiseBot;
+    };
+    players: {
+        [username: string]: Player;
+    };
+    turn: number | null;
+    time: Time;
+    phase: number;
+    services: {
+        riverboats: Faction | null;
+        mercenaries: Faction | null;
+    };
+    cards: Card[];
+    discards: Card[];
+    quests: Quest[];
+    items: Item[];
+    questsAvailable: Quest[];
+    board: Board;
+    dice: [number, number];
+    constructor(name: string, { factions, assignment, map, }?: Settings);
+    readonly clients: Client[];
+    sendTo(faction: Faction, message: string, data?: any): Promise<any>;
+    notify(): void;
+    addPlayer(client: Client, threadId: string): void;
+    addClient(client: Client, threadId: string): void;
+    removePlayer(client: Client, threadId?: string): void;
+    removeClient(client: Client): void;
+    setReady(client: Client, ready: boolean, threadId: string): void;
+    setFaction(client: Client, faction: Faction, threadId: string): void;
+    nextTurn(): void;
+    nextTime(time: Time): void;
+    nextPhase(): void;
+    takeCards(count?: number): Card[];
+    drawCard(faction: Faction, count: number | undefined, threadId: string): void;
+    discard(...cards: Card[]): void;
+    rollDice(): [number, number];
+    readonly isFull: boolean;
+    readonly allReady: boolean;
+    toJSON(): any;
+    batchUpdates(handler: () => any): void;
+}
+export {};

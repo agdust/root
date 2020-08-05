@@ -1,1 +1,6 @@
-../../server/model/GameMap.ts
+enum GameMap {
+  forest = 'forest',
+  winter = 'winter',
+};
+
+export default GameMap;
