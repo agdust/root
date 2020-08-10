@@ -4,6 +4,7 @@ import Rejection from './Rejection';
 import Game from './Game';
 
 class Closed {}
+
 class Timeout {}
 
 type Callback = (msg: any) => void;
@@ -36,7 +37,7 @@ export default class Client {
         if (message.type === 'reject' || message.type === 'error') {
           // notify direct response
           const error = message.type === 'reject' ? new Rejection(message.threadId, message.data, true) : new Error(message.data);
-          const [,callback]: OptionalCallbacks = this.callbacks.get(message.threadId) || [];
+          const [, callback]: OptionalCallbacks = this.callbacks.get(message.threadId) || [];
           if (callback) {
             console.log(`Response received (${message.threadId}): ${message.type}`);
             callback(error);
@@ -71,8 +72,16 @@ export default class Client {
     let timer: NodeJS.Timeout;
     const promise = new Promise((resolve, reject) => {
       callbacks = [
-        value => { this.callbacks.delete(threadId); clearTimeout(timer); resolve(value); },
-        error => { this.callbacks.delete(threadId); clearTimeout(timer); reject(error); },
+        value => {
+          this.callbacks.delete(threadId);
+          clearTimeout(timer);
+          resolve(value);
+        },
+        error => {
+          this.callbacks.delete(threadId);
+          clearTimeout(timer);
+          reject(error);
+        },
       ];
       this.socket.send(JSON.stringify({
         threadId,
@@ -90,7 +99,7 @@ export default class Client {
         }, timeout);
         this.callbacks.set(threadId, callbacks);
         return promise.then(...args);
-      }
+      },
     };
   }
 
@@ -114,11 +123,11 @@ export default class Client {
   throw(error: Error | Rejection | Timeout) {
     const { watchers } = this;
     this.watchers = [];
-    watchers.forEach(([,reject]) => reject(error));
+    watchers.forEach(([, reject]) => reject(error));
   }
 
   notify(message: Message) {
-    console.log(`${this.username}: ${message.toString()}`);
+    console.log(`${this.username}: ${message.type} (${message.threadId}):`, message.data);
     const { watchers } = this;
     if (this.watchers.length && !this.receivedMessages.length) {
       this.watchers = [];
@@ -127,9 +136,8 @@ export default class Client {
       this.receivedMessages.push(message);
     }
   }
-
-  async * [Symbol.asyncIterator] () {
-    for (;;) {
+  async* [Symbol.asyncIterator]() {
+    for (; ;) {
       try {
         if (this.receivedMessages.length) {
           const [first, ...rest] = this.receivedMessages;
