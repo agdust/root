@@ -40,7 +40,7 @@
     "autoprefixer": "^9.5.1",
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-svelte": "^3.0.0",
-    "svelte": "^3.1.0",
+    "svelte": "3.12.0",
     "typescript": "3.4.5"
   },
   "dependencies": {
@@ -60,7 +60,8 @@
   ],
   "svelte": {
     "compilerOptions": {
-      "css": false
+      "css": false,
+      "dev": true
     }
   }
 }
