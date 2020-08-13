@@ -2,7 +2,6 @@ import Alliance from './Alliance.js';
 import Cult from './Cult.js';
 import Eyrie from './Eyrie.js';
 import Marquise from './Marquise.js';
-import MarquiseBot from './MarquiseBot.js';
 import Riverfolk from './Riverfolk.js';
 import Vagabond from './Vagabond.js';
 
@@ -14,7 +13,8 @@ class UnknownFaction extends Error {
   }
 }
 
-type FactionData = Alliance | Cult | Eyrie | Marquise | MarquiseBot | Riverfolk | Vagabond;
+type FactionData = Alliance | Cult | Eyrie | Marquise | Riverfolk | Vagabond;
+
 export default function createFaction(faction: string): FactionData {
   switch (faction) {
     case Faction.marquise:
@@ -30,8 +30,8 @@ export default function createFaction(faction: string): FactionData {
       return new Cult;
     case Faction.riverfolk:
       return new Riverfolk;
-    case Faction.marquise_bot:
-      return new MarquiseBot;
+    // case Faction.marquise_bot:
+    //   return new MarquiseBot;
     default:
       throw new UnknownFaction(faction);
   }

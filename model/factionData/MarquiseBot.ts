@@ -1,4 +1,3 @@
-import Faction from '../Faction';
 import { Card } from '../Card';
 import { Item } from '../Item';
 
@@ -8,7 +7,7 @@ export default class MarquiseBot {
   public victoryPoints: number;
   public craftedItems: Item[];
 
-  get faction() { return Faction.marquise_bot; }
+  // get faction() { return Faction.marquise_bot; }
   constructor() {
     this.warrior = 25;
     this.orders = [];

@@ -62,7 +62,7 @@ export default class Clearing {
       cult: 0,
       vagabond: 0,
       vagabond2: 0,
-      marquise_bot: 0,
+      // marquise_bot: 0,
     };
     clearing
       .pieces

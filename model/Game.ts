@@ -74,7 +74,7 @@ class GameAlreadyStarted extends Rejection {
     super(threadId, {
       key: 'rejection-game-already-started',
       params: { gameName },
-    })
+    });
   }
 }
 
@@ -83,7 +83,7 @@ class IllegalFaction extends Rejection {
     super(threadId, {
       key: 'rejection-illegal-faction',
       params: { faction },
-    })
+    });
   }
 }
 
@@ -92,14 +92,13 @@ class FactionTaken extends Rejection {
     super(threadId, {
       key: 'rejection-faction-taken',
       params: { faction, playerName },
-    })
+    });
   }
 }
 
 export default class Game {
   name: string;
   assignment: Assignment;
-  _clients: { [username: string]: string };
   playerNames: string[];
   factions: Faction[];
   factionData: {
@@ -110,10 +109,9 @@ export default class Game {
     vagabond2?: Vagabond,
     cult?: Cult,
     riverfolk?: Riverfolk,
-    marquise_bot?: MarquiseBot,
+    // marquise_bot?: MarquiseBot,
   };
   players: { [username: string]: Player };
-
   turn: number | null;
   time: Time;
   phase: number;
@@ -121,7 +119,6 @@ export default class Game {
     riverboats: Faction | null,
     mercenaries: Faction | null,
   };
-
   cards: Card[];
   discards: Card[];
   quests: Quest[];
@@ -144,7 +141,7 @@ export default class Game {
     /** Enabled factions */
     this.factions = factions;
     /** Faction data for the factions above */
-    this.factionData = <any> factions // casting because this is cool
+    this.factionData = <any>factions // casting because this is cool
       .map(faction => createFaction(faction))
       .reduce((collection, faction) => Object.assign(collection, { [faction.faction]: faction }), {});
     /** How players are to be assigned factions (auto or manual) */
@@ -153,15 +150,17 @@ export default class Game {
     this.players = {};
     /** The current turn number, negative for setup, or null if not started */
     this.turn = null;
+    /** Time of the day */
     this.time = Time.birdsong;
     this.phase = 0;
     /** The Riverfolk services purchased by the current player **/
     this.services = { riverboats: null, mercenaries: null };
     /** The cards still in the deck */
-    this.cards = shuffle(factions.includes(Faction.marquise_bot)
-      ? Cards.filter(card => !Card.isDominance(card))
-      : Cards.filter(card => !Card.isSpy(card))
-    );
+    this.cards = shuffle(Cards);
+    // this.cards = shuffle(factions.includes(Faction.marquise_bot)
+    //   ? Cards.filter(card => !Card.isDominance(card))
+    //   : Cards.filter(card => !Card.isSpy(card)),
+    // );
     /** The cards that have been discarded */
     this.discards = [];
     /** The unturned quests */
@@ -184,20 +183,31 @@ export default class Game {
     this.dice = [0, 0];
   }
 
+  _clients: { [username: string]: string };
+
   get clients(): Client[] {
     return Object.values(this._clients)
       .map(clientId => clients.get(clientId))
-      .filter((client: Client |undefined): client is Client => !!client);
+      .filter((client: Client | undefined): client is Client => !!client);
+  }
+
+  get isFull() {
+    // return this.playerNames.length === this.factions.filter(faction => faction !== Faction.marquise_bot).length;
+    return this.playerNames.length === this.factions.length;
+  }
+
+  get allReady() {
+    return Object.values(this.players).every(player => player.ready) && this.isFull;
   }
 
   // @ts-ignore: don't care about the promise rule
   async sendTo(faction: Faction, message: string, data?: any) {
     const { username } = Object.values(this.players)
       .find(player => player.faction === faction)!;
-    const id = this._clients[username]
+    const id = this._clients[username];
     const client = clients.get(id);
     if (client) {
-      return client.send(message, data)
+      return client.send(message, data);
     }
     return undefined;
   }
@@ -243,7 +253,7 @@ export default class Game {
     delete this.players[client.username];
     this.notify();
     if (this.playerNames.length === 0) {
-      console.log(`Discarding game ${this.name}`)
+      console.log(`Discarding game ${this.name}`);
       games.delete(this.name);
     }
   }
@@ -295,10 +305,11 @@ export default class Game {
       throw new IllegalFaction(threadId, faction);
     }
     const takenBy = Object.values(this.players)
-      .find(player => player.faction === faction)
+      .find(player => player.faction === faction);
     if (takenBy) {
       throw new FactionTaken(threadId, faction, takenBy.username);
     }
+
     this.players[client.username].faction = faction;
     this.notify();
   }
@@ -337,14 +348,12 @@ export default class Game {
 
   drawCard(faction: Faction, count: number = 1, threadId: string) {
     const factionData = this.factionData[faction];
-    if (!factionData) {
-      throw new IllegalFaction(threadId, faction);
-    }
-    if (factionData instanceof MarquiseBot) {
-      throw new PoorManualDexterity;
-    }
+
+    if (!factionData) { throw new IllegalFaction(threadId, faction); }
+    if (factionData instanceof MarquiseBot) { throw new PoorManualDexterity; }
+
     const cards = this.takeCards(count);
-    factionData.hand.push(...cards)
+    factionData.hand.push(...cards);
     this.notify();
   }
 
@@ -367,14 +376,6 @@ export default class Game {
     this.dice.sort();
     this.notify();
     return this.dice;
-  }
-
-  get isFull() {
-    return this.playerNames.length === this.factions.filter(faction => faction !== Faction.marquise_bot).length;
-  }
-
-  get allReady() {
-    return Object.values(this.players).every(player => player.ready) && this.isFull;
   }
 
   toJSON() {

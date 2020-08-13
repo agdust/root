@@ -30,8 +30,8 @@ class DuplicatePermanentEffect extends Rejection {
   }
 }
 
-async function * craftItem (this: Client, card: Card, faction: Faction, itemName: string, points: number, threadId: string): AsyncIterableIterator<void> {
-  if (faction === Faction.marquise_bot) { throw new Error('unreachable'); }
+async function * craftItem(this: Client, card: Card, faction: Faction, itemName: string, points: number, threadId: string): AsyncIterableIterator<void> {
+  // if (faction === Faction.marquise_bot) { throw new Error('unreachable'); }
 
   const itemIndex = this.game.items.findIndex(item => item.name === itemName);
   if (itemIndex === -1) {
@@ -47,7 +47,7 @@ async function * craftItem (this: Client, card: Card, faction: Faction, itemName
   this.game.discard(card);
 }
 
-async function * favor (this: Client, faction: Faction, suit: Suit): AsyncIterableIterator<void> {
+async function * favor(this: Client, faction: Faction, suit: Suit): AsyncIterableIterator<void> {
   for (const clearing of this.game.board.clearings.filter(clearing => clearing.suit === suit)) {
     for (let i = clearing.pieces.length; i >= 0; --i) {
       if (clearing.pieces[i].faction && clearing.pieces[i].faction !== faction) {
@@ -59,7 +59,7 @@ async function * favor (this: Client, faction: Faction, suit: Suit): AsyncIterab
 }
 
 // TODO: where does this get used?
-async function * royalClaim (this: Client, faction: Faction): AsyncIterableIterator<void> {
+async function * royalClaim(this: Client, faction: Faction): AsyncIterableIterator<void> {
   const count = this.game.board.clearings
     .map(clearing => Clearing.ruler(this.game, faction, clearing))
     .filter(ruler => ruler === faction)
@@ -68,10 +68,10 @@ async function * royalClaim (this: Client, faction: Faction): AsyncIterableItera
   this.game.notify();
 }
 
-export default async function * cardEffect (this: Client, card: Card, faction: Faction, threadId: string): AsyncIterableIterator<void> {
-    if (faction === Faction.marquise_bot) { throw new Error('unreachable'); }
+export default async function * cardEffect(this: Client, card: Card, faction: Faction, threadId: string): AsyncIterableIterator<void> {
+  // if (faction === Faction.marquise_bot) { throw new Error('unreachable'); }
 
-    switch (card.name) {
+  switch (card.name) {
     case Card.birdy_bindle:
     case Card.gently_used_knapsack:
     case Card.smugglers_trail:
@@ -130,5 +130,5 @@ export default async function * cardEffect (this: Client, card: Card, faction: F
       break;
     default:
       throw new Error('unimplemented');
-    }
   }
+}

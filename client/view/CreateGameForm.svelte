@@ -12,55 +12,71 @@ let factions = [Faction.marquise, Faction.eyrie, Faction.alliance, Faction.vagab
 let assignment = 'auto';
 let map = 'forest';
 $: valid = name
-  && factions.length >= 2
-  // marquise cannot fight their own bot
-  && !(factions.includes(Faction.marquise) && factions.includes(Faction.marquise_bot));
+  && factions.length >= 2;
+// marquise cannot fight their own bot
+// && !(factions.includes(Faction.marquise) && factions.includes(Faction.marquise_bot));
 $: settings = { factions, assignment, map };
 
 export let client;
 
 function create() {
-  client.notify(Message.direct('CreateGameForm:create', { name, settings }))
+  client.notify(Message.direct('CreateGameForm:create', { name, settings }));
 }
 </script>
 
 <button
   class='button back'
   on:click={() => dispatch('back')}>
-  <Text text='back' />
+  <Text text='back'/>
 </button>
-<h1 class='heading'><Text text='game-name' /></h1>
+<h1 class='heading'>
+  <Text text='game-name'/>
+</h1>
 <!-- TODO [l10n]: the placeholder is not localized -->
 <input
   class='input'
   placeholder='Name'
   autofocus
-  bind:value={name} />
-<h1 class='heading'><Text text='options' /></h1>
+  bind:value={name}/>
+<h1 class='heading'>
+  <Text text='options'/>
+</h1>
 <div class='options'>
   <fieldset>
-    <legend><Text text='available-factions' /></legend>
-    {#each Object.values(Faction) as faction}
-      <label>
-        <input
-          type='checkbox'
-          bind:group={factions}
-          value={faction} />
-        <Text text={faction} params={{ form: 'long' }}/>
-      </label>
-    {/each}
+    <legend>
+      <Text text='available-factions'/>
+    </legend>
+      {#each Object.values(Faction) as faction}
+        <label>
+          <input
+            type='checkbox'
+            bind:group={factions}
+            value={faction}/>
+          <Text text={faction} params={{ form: 'long' }}/>
+        </label>
+      {/each}
   </fieldset>
   <div class='flex'>
     <fieldset>
-      <legend><Text text='faction-assignment' /></legend>
-      <label><input type='radio' bind:group={assignment} value='auto' /> <Text text='random' /></label>
-      <label><input type='radio' bind:group={assignment} value='choose' /> <Text text='choose' /></label>
+      <legend>
+        <Text text='faction-assignment'/>
+      </legend>
+      <label><input type='radio' bind:group={assignment} value='auto'/>
+        <Text text='random'/>
+      </label>
+      <label><input type='radio' bind:group={assignment} value='choose'/>
+        <Text text='choose'/>
+      </label>
     </fieldset>
     <fieldset>
-      <legend><Text text='map' /></legend>
-      {#each Object.values(GameMap) as gameMap}
-        <label><input type='radio' bind:group={map} value={gameMap} /> <Text text={gameMap} /></label>
-      {/each}
+      <legend>
+        <Text text='map'/>
+      </legend>
+        {#each Object.values(GameMap) as gameMap}
+          <label><input type='radio' bind:group={map} value={gameMap}/>
+            <Text text={gameMap}/>
+          </label>
+        {/each}
     </fieldset>
   </div>
 </div>
@@ -68,7 +84,7 @@ function create() {
   class='button'
   disabled={!valid}
   on:click={create}>
-  <Text text='create' />
+  <Text text='create'/>
 </button>
 
 <style>

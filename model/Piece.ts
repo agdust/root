@@ -64,9 +64,9 @@ const Pieces = {
     trade_post_rabbit: new Piece(Faction.riverfolk, 'trade_post_rabbit', 'round'),
     trade_post_mouse: new Piece(Faction.riverfolk, 'trade_post_mouse', 'round'),
   },
-  marquise_bot: {
-    warrior: new Piece(Faction.marquise_bot, 'warrior', 'other'),
-  },
+  // marquise_bot: {
+  //   warrior: new Piece(Faction.marquise_bot, 'warrior', 'other'),
+  // },
   ruin: new Piece(null, 'ruin', 'square'),
 }
 

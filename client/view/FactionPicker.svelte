@@ -9,7 +9,7 @@ import Faction from '../../model/Faction';
 
 let flips = $game.factions.map(() => false);
 $: factions = $game.factions
-  .filter(faction => faction !== Faction.marquise_bot) // computer players only
+  // .filter(faction => faction !== Faction.marquise_bot) // computer players only
   .map((name, i) => ({
     flip: flips[i],
     name,
@@ -26,30 +26,30 @@ function selection({ detail: { selection } }) {
 <div class='overlay'>
   <Box grow>
     <Picker let:current options={factions.length} on:select={selection}>
-      {#each factions as faction, i}
-        <div class='faction' class:taken={!!faction.player} class:current={current === i}>
-          <div
-            class='card'
-            class:show-front={!faction.flip}
-            class:show-back={faction.flip}
-            on:click={() => {
+        {#each factions as faction, i}
+          <div class='faction' class:taken={!!faction.player} class:current={current === i}>
+            <div
+              class='card'
+              class:show-front={!faction.flip}
+              class:show-back={faction.flip}
+              on:click={() => {
               flips[i] = !flips[i];
               flips = [...flips];
-            }} >
-            <div class='front' style='background-image: url({images[faction.name].front})' />
-            <div class='back' style='background-image: url({images[faction.name].back})' />
+              }}>
+              <div class='front' style='background-image: url({images[faction.name].front})'/>
+              <div class='back' style='background-image: url({images[faction.name].back})'/>
+            </div>
           </div>
-        </div>
-      {/each}
+        {/each}
     </Picker>
   </Box>
-  {#if $errorMessage}
-    <div class='error'>
-      <Box small>
-        { $errorMessage }
-      </Box>
-    </div>
-  {/if}
+    {#if $errorMessage}
+      <div class='error'>
+        <Box small>
+            { $errorMessage }
+        </Box>
+      </div>
+    {/if}
 </div>
 
 <style>
@@ -141,5 +141,7 @@ function selection({ detail: { selection } }) {
   pointer-events: none;
 }
 
-.show-back, .back { transform: rotateY(180deg); }
+.show-back, .back {
+  transform: rotateY(180deg);
+}
 </style>
