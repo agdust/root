@@ -12,19 +12,26 @@ class Unacceptable extends Error {
   }
 }
 
-type Handler = string | ((this: Client, data: any, threadId: string) => any) | { type: string, handler: (this: Client, data: any, threadId: string) => any }
+type Handler =
+  string
+  | ((this: Client, data: any, threadId: string) => any)
+  | { type: string, handler: (this: Client, data: any, threadId: string) => any }
 
 const matches = ({ type }: Message) => (handler: Handler) => {
-  if (typeof handler === 'string') {
-    return handler === type;
-  } else if (typeof handler === 'function') {
-    return handler.name === type;
-  } else if (typeof handler === 'object') {
-    return handler.type === type;
+  switch (typeof handler) {
+    case 'string':
+      return handler === type;
+    case 'function':
+      return handler.name === type;
+    case 'object':
+      return handler.type === type;
   }
   throw new Error('Invalid handler');
-}
+};
 
+/**
+ * A class for accepting messages between client and server
+ */
 export class Acceptor {
   constructor(
     public spec: Handler[],
@@ -34,16 +41,17 @@ export class Acceptor {
     return this.spec.some(matches(msg));
   }
 
-  async * accept(thisarg: Client, msg: Message) {
+  async * accept(thisArg: Client, msg: Message) {
     for (const handler of this.spec) {
-      if (matches(msg)(handler)) {
-        if (typeof handler === 'string') {
+      if (!matches(msg)(handler)) { continue; }
+
+      switch (typeof handler) {
+        case 'string':
           return msg.data;
-        } else if (typeof handler === 'function') {
-          return yield * handler.call(thisarg, msg.data, msg.threadId);
-        } else if (typeof handler === 'object') {
-          return yield * handler.handler.call(thisarg, msg.data, msg.threadId)
-        }
+        case 'function':
+          return yield * handler.call(thisArg, msg.data, msg.threadId);
+        case 'object':
+          return yield * handler.handler.call(thisArg, msg.data, msg.threadId);
       }
     }
     throw new Unacceptable(msg.type);
@@ -52,12 +60,16 @@ export class Acceptor {
   description() {
     const description = [];
     for (const handler of this.spec) {
-      if (typeof handler === 'string') {
-        description.push(`${handler}`);
-      } else if (typeof handler === 'function') {
-        description.push(`${handler.name}`);
-      } else if (typeof handler === 'object') {
-        description.push(`${handler.type}`);
+      switch (typeof handler) {
+        case 'string':
+          description.push(`${handler}`);
+          break;
+        case 'function':
+          description.push(`${handler.name}`);
+          break;
+        case 'object':
+          description.push(`${handler.type}`);
+          break;
       }
     }
     return description.join(', ');
@@ -65,23 +77,31 @@ export class Acceptor {
 }
 
 let rejectionHandler = (rejection: any) => console.error(rejection);
+
 export function setRejectionHandler(handler: (rejection: any) => void) {
   rejectionHandler = handler || (rejection => console.error(rejection));
 }
 
-export async function * accept (this: Client, ...spec: Handler[]) {
+/**
+ * Main method for client-server communication
+ * It takes all methods, and the name of message it should pass after (or take?)
+ *
+ * Example:
+ * accept.call(this, fooFunc, barFunc, 'importantUpdate');
+ */
+export async function * accept(this: Client, ...spec: Handler[]) {
   const acceptor = new Acceptor(spec);
-  for (;;) {
+  for (; ;) {
     try {
       return await (yield * acceptor.accept(this, yield acceptor));
     } catch (e) {
       if (e instanceof Rejection) {
         if (e.remote) {
-          console.warn('Rejected:', e)
+          console.warn('Rejected:', e);
           // remote rejections need to be reported to the user
           rejectionHandler(e);
         } else if (e.threadId) {
-          console.log('Rejecting:', e)
+          console.log('Rejecting:', e);
           // local rejections with threadId need to be reported to the remote
           this.reject(e.threadId, e.message);
         }
