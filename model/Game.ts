@@ -268,33 +268,40 @@ export default class Game {
       if (!this.players[client.username]) {
         throw new InvalidPlayer(threadId, this.name, client.username);
       }
+
       this.players[client.username].ready = ready;
-      // shuffle players for random turn order
+
       if (this.allReady) {
-        this.playerNames = shuffle(this.playerNames);
-        // set the turn to negative for setup turn
-        this.turn = -this.factions.length;
-        if (this.assignment === 'auto') {
-          // shuffle factions for random assignment
-          const factions = shuffle(this.factions);
-          // assign factions
-          for (let i = 0; i < factions.length; ++i) {
-            this.players[this.playerNames[i]].faction = factions[i];
-          }
-        }
-        for (const faction of this.factions) {
-          try {
-            this.drawCard(faction, 3, threadId);
-          } catch (e) {
-            if (e instanceof PoorManualDexterity) {
-              // this is expected
-              continue;
-            }
-            throw e;
-          }
-        }
+        this.setupGame(threadId);
       }
     });
+  }
+
+  setupGame(threadId: string) {
+    // shuffle players for random turn order
+    this.playerNames = shuffle(this.playerNames);
+    // set the turn to negative for setup turn
+    this.turn = -this.factions.length;
+    if (this.assignment === 'auto') {
+      // shuffle factions for random assignment
+      const factions = shuffle(this.factions);
+      // assign factions
+      for (let i = 0; i < factions.length; ++i) {
+        this.players[this.playerNames[i]].faction = factions[i];
+      }
+    }
+
+    for (const faction of this.factions) {
+      try {
+        this.drawCard(faction, 3, threadId);
+      } catch (e) {
+        if (e instanceof PoorManualDexterity) {
+          // this is expected
+          continue;
+        }
+        throw e;
+      }
+    }
   }
 
   setFaction(client: Client, faction: Faction, threadId: string) {
