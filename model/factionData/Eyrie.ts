@@ -6,6 +6,7 @@ import Game from '../Game';
 import { Card } from '../Card';
 import { Item } from '../Item';
 import { NoMorePieces } from './rejections';
+import PlayablePlayer from '../PlayablePlayer';
 
 class LeaderUnavailable extends Rejection {
   constructor(threadId: string, leader: Leader) {
@@ -31,20 +32,15 @@ type Decree = {
   build: Card[],
 }
 
-export default class Eyrie {
+export default class Eyrie extends PlayablePlayer {
   decree: Decree;
   roost: number;
   warrior: number;
   leader: string | null;
   leaders: Leader[];
-  hand: Card[];
-  victoryPoints: number;
-  dominance: Card | null;
-  craftedItems: Item[];
-  craftedEffects: Card[];
 
-  get faction() { return Faction.eyrie; }
   constructor() {
+    super();
     this.decree = {
       recruit: [],
       move: [],
@@ -56,13 +52,9 @@ export default class Eyrie {
     this.warrior = 20;
     this.leader = null;
     this.leaders = Object.values(Leader);
-    // common stuff
-    this.hand = [];
-    this.victoryPoints = 0;
-    this.dominance = null;
-    this.craftedEffects = [];
-    this.craftedItems = [];
   }
+
+  get faction() { return Faction.eyrie; }
 
   addItem(item: Item) {
     this.craftedItems.push(item);

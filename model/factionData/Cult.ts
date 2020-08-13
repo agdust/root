@@ -5,8 +5,9 @@ import Suit from '../Suit';
 import Pieces, { Piece } from '../Piece';
 import Game from '../Game';
 import { NoMorePieces } from './rejections';
+import PlayablePlayer from '../PlayablePlayer';
 
-export default class Cult {
+export default class Cult extends PlayablePlayer {
   warrior: number;
   garden_fox: number;
   garden_rabbit: number;
@@ -15,14 +16,10 @@ export default class Cult {
   hated: boolean;
   acolytes: number;
   lostSouls: Card[];
-  hand: Card[];
-  victoryPoints: number;
-  dominance: Card | null;
-  craftedEffects: Card[];
-  craftedItems: Item[];
 
   get faction() { return Faction.cult; }
   constructor() {
+    super()
     this.warrior = 25;
     this.garden_fox = 5;
     this.garden_rabbit = 5;
@@ -31,12 +28,6 @@ export default class Cult {
     this.hated = false;
     this.acolytes = 0;
     this.lostSouls = [];
-    // common stuff
-    this.hand = [];
-    this.victoryPoints = 0;
-    this.dominance = null;
-    this.craftedEffects = [];
-    this.craftedItems = [];
   }
 
   addItem(item: Item) {

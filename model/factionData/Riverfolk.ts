@@ -1,9 +1,9 @@
 import Faction from '../Faction';
 import Game from '../Game';
-import Pieces, { Piece } from '../Piece'
-import { Card } from '../Card';
+import Pieces, { Piece } from '../Piece';
 import { Item } from '../Item';
 import { NoMorePieces } from './rejections';
+import PlayablePlayer from '../PlayablePlayer';
 
 export type ServiceCosts = {
   handCard: number,
@@ -11,7 +11,7 @@ export type ServiceCosts = {
   mercenaries: number,
 };
 
-export default class Riverfolk {
+export default class Riverfolk extends PlayablePlayer {
   warrior: number;
   trade_post_fox: number;
   trade_post_rabbit: number;
@@ -27,14 +27,9 @@ export default class Riverfolk {
     },
   };
   services: ServiceCosts;
-  hand: Card[];
-  victoryPoints: number;
-  dominance: Card | null;
-  craftedEffects: Card[];
-  craftedItems: Item[];
 
-  get faction() { return Faction.riverfolk; }
   constructor() {
+    super();
     this.warrior = 15;
     this.trade_post_fox = 3;
     this.trade_post_rabbit = 3;
@@ -54,13 +49,9 @@ export default class Riverfolk {
       riverboats: 1,
       mercenaries: 1,
     };
-    // common stuff
-    this.hand = [];
-    this.victoryPoints = 0;
-    this.dominance = null;
-    this.craftedEffects = [];
-    this.craftedItems = [];
   }
+
+  get faction() { return Faction.riverfolk; }
 
   addItem(item: Item) {
     this.craftedItems.push(item);

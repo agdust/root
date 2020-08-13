@@ -1,11 +1,11 @@
 import Faction from '../Faction';
 import Pieces, { Piece } from '../Piece';
 import Game from '../Game';
-import { Card } from '../Card';
 import { Item } from '../Item';
 import { NoMorePieces } from './rejections';
+import PlayablePlayer from '../PlayablePlayer';
 
-export default class Marquise {
+export default class Marquise extends PlayablePlayer {
   sawmill: number;
   workshop: number;
   recruiter: number;
@@ -13,27 +13,17 @@ export default class Marquise {
   wood: number;
   keep: number;
 
-  hand: Card[];
-  victoryPoints: number;
-  dominance: Card | null;
-  craftedEffects: Card[];
-  craftedItems: Item[];
-
-  get faction() { return Faction.marquise; }
   constructor() {
+    super();
     this.sawmill = 6;
     this.workshop = 6;
     this.recruiter = 6;
     this.warrior = 25;
     this.wood = 8;
     this.keep = 1;
-    // common stuff
-    this.hand = [];
-    this.victoryPoints = 0;
-    this.dominance = null;
-    this.craftedEffects = [];
-    this.craftedItems = [];
   }
+
+  get faction() { return Faction.marquise; }
 
   addItem(item: Item) {
     this.craftedItems.push(item);
@@ -52,11 +42,11 @@ export default class Marquise {
   }
 
   placeBuilding(game: Game, clearing: number, building: Piece, threadId: string) {
-    if (!this[<keyof Marquise> building.name]) {
+    if (!this[<keyof Marquise>building.name]) {
       throw new NoMorePieces(threadId, building);
     }
     game.board.clearings[clearing].addBuilding(building, threadId);
-    --(<number> this[<keyof Marquise> building.name]);
+    --(<number>this[<keyof Marquise>building.name]);
     game.notify();
   }
 

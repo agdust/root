@@ -2,8 +2,9 @@ import Faction from '../Faction';
 import Game from '../Game';
 import { Card } from '../Card';
 import { Item } from '../Item';
+import PlayablePlayer from '../PlayablePlayer';
 
-export default class Alliance {
+export default class Alliance extends PlayablePlayer {
   warrior: number;
   sympathy: number;
   base_fox: number;
@@ -11,14 +12,9 @@ export default class Alliance {
   base_mouse: number;
   supporters: Card[];
   officers: number;
-  hand: Card[];
-  victoryPoints: number;
-  craftedItems: Item[];
-  craftedEffects: Card[];
-  dominance: Card | null;
 
-  get faction() { return Faction.alliance; }
   constructor() {
+    super();
     this.base_mouse = 1;
     this.base_fox = 1;
     this.base_rabbit = 1;
@@ -26,13 +22,9 @@ export default class Alliance {
     this.supporters = [];
     this.warrior = 10;
     this.officers = 0;
-    // common stuff
-    this.hand = [];
-    this.victoryPoints = 0;
-    this.craftedItems = [];
-    this.craftedEffects = [];
-    this.dominance = null;
   }
+
+  get faction() { return Faction.alliance; }
 
   addItem(item: Item) {
     this.craftedItems.push(item);

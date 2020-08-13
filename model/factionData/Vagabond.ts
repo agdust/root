@@ -4,6 +4,7 @@ import Game from '../Game'
 import { Item } from '../Item'
 import { Card } from '../Card'
 import Rejection from '../Rejection';
+import PlayablePlayer from '../PlayablePlayer';
 
 class CharacterAlreadyTaken extends Rejection {
   constructor(threadId: string, character: Character) {
@@ -14,7 +15,7 @@ class CharacterAlreadyTaken extends Rejection {
   }
 }
 
-export default class Vagabond {
+export default class Vagabond extends PlayablePlayer {
   character: string | null;
   items: {
     refreshed: Item[],
@@ -30,11 +31,9 @@ export default class Vagabond {
   };
   coalition: string | null;
   ruinItems: Item[];
-  hand: Card[];
-  craftedEffects: Card[];
-  victoryPoints: number;
 
   constructor(public faction: Faction.vagabond | Faction.vagabond2) {
+    super()
     this.character = null;
     this.items = {
       refreshed: [],
@@ -55,10 +54,6 @@ export default class Vagabond {
       new Item(Item.sword, true),
       new Item(Item.bag, true),
     ];
-    // common stuff
-    this.hand = [];
-    this.craftedEffects = [];
-    this.victoryPoints = 0;
   }
 
   addItem(item: Item) {
