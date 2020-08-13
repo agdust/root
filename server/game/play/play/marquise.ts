@@ -17,8 +17,11 @@ class NoSawmill extends Rejection {
   }
 }
 
-function sawmill (sawmillClearings: Clearing[]) {
-  return async function * sawmill (this: Client, { clearing: index }: { clearing: number }, threadId: string): AsyncIterableIterator<void> {
+/**
+ * Launches sawmills and places one wood to each clearing with sawmill
+ */
+function sawmill(sawmillClearings: Clearing[]) {
+  return async function* sawmill(this: Client, { clearing: index }: { clearing: number }, threadId: string): AsyncIterableIterator<void> {
     const clearing = sawmillClearings.find(clearing => clearing.index === index);
     if (!clearing) {
       throw new NoSawmill(threadId);
@@ -26,12 +29,12 @@ function sawmill (sawmillClearings: Clearing[]) {
     this.game.factionData.marquise!.placeWood(this.game, clearing.index, threadId);
     sawmillClearings.splice(sawmillClearings.indexOf(clearing), 1);
     this.respond(threadId, 'update', this.game);
-  }
+  };
 }
 
 const EXTRA_ACTION = Symbol();
 
-async function * extraAction (this: Client, { card: index }: { card: number }, threadId: string): AsyncIterableIterator<void> {
+async function* extraAction(this: Client, { card: index }: { card: number }, threadId: string): AsyncIterableIterator<void> {
   const card = this.game.factionData.marquise!.hand[index];
   if (!card || card.suit !== Suit.bird) {
     throw new InvalidCardSuit(threadId, Suit.bird);
@@ -42,41 +45,44 @@ async function * extraAction (this: Client, { card: index }: { card: number }, t
   return EXTRA_ACTION;
 }
 
-async function * marquiseBirdsong(this: Client) {
+async function* marquiseBirdsong(this: Client) {
   switch (this.game.phase) {
-  // @ts-ignore: falls through
-  case 0:
-    yield * birdsong.call(this, Faction.marquise);
+    // @ts-ignore: falls through
+    case 0:
+      yield* birdsong.call(this, Faction.marquise);
     /* falls through */
-  case 1:
-    const sawmillClearings = (<Clearing[]> []).concat(...this.game.board
-      .clearings
-      .filter(clearing => clearing.hasBuilding(Pieces.marquise.sawmill))
-      .map(clearing => clearing
-        .buildings
-        .filter(building => building && Piece.equals(building, Pieces.marquise.sawmill))
-        .map(() => clearing)
-      )
-    );
-    if (this.game.factionData.marquise!.wood < sawmillClearings.length) {
-      while (this.game.factionData.marquise!.wood) {
-        yield * accept.call(this, sawmill(sawmillClearings));
+    case 1:
+      // Here firstly we filter all clearings with sawmills,
+      // and secondly we repeat it in another way and I don't know why
+      const sawmillClearings = (<Clearing[]>[]).concat(...this.game.board
+        .clearings
+        .filter(clearing => clearing.hasBuilding(Pieces.marquise.sawmill))
+        .map(clearing => clearing
+          .buildings
+          .filter(building => building && Piece.equals(building, Pieces.marquise.sawmill))
+          .map(() => clearing),
+        ),
+      );
+      // If marquise has not enough wood, we let her choose clearings where the wood will appear
+      if (this.game.factionData.marquise!.wood < sawmillClearings.length) {
+        while (this.game.factionData.marquise!.wood) {
+          yield* accept.call(this, sawmill(sawmillClearings));
+        }
+      } else {
+        // else just put one wood at each clearing
+        for (const clearing of sawmillClearings) {
+          this.game.factionData.marquise!.placeWood(this.game, clearing.index, null);
+        }
       }
-    } else {
-      // put one at each if possible
-      for (const clearing of sawmillClearings) {
-        this.game.factionData.marquise!.placeWood(this.game, clearing.index, null);
-      }
-    }
-    this.game.nextTime(Time.daylight);
-    this.send('update', this.game);
+      this.game.nextTime(Time.daylight);
+      this.send('update', this.game);
   }
 }
 
-async function * battle (this: Client): AsyncIterableIterator<void> {
-  const clearing: Clearing = yield * accept.call(this,
+async function* battle(this: Client): AsyncIterableIterator<void> {
+  const clearing: Clearing = yield* accept.call(this,
     cancel,
-    async function * clearing (this: Client, { clearing: index }: { clearing: number }, threadId: string) {
+    async function* clearing(this: Client, { clearing: index }: { clearing: number }, threadId: string) {
       const clearing = this.game.board.clearings[index];
       if (clearing.pieces.some(piece => Piece.equals(piece, Pieces.marquise.warrior))
         && clearing.pieces.some(piece => piece.faction !== Faction.marquise)
@@ -87,64 +93,64 @@ async function * battle (this: Client): AsyncIterableIterator<void> {
     },
   );
 
-  yield * commonBattle.call(this, clearing, Faction.marquise);
+  yield* commonBattle.call(this, clearing, Faction.marquise);
 }
 
-async function * march (this: Client): AsyncIterableIterator<void> {
-
-}
-
-async function * recruit (this: Client): AsyncIterableIterator<void> {
+async function* march(this: Client): AsyncIterableIterator<void> {
 
 }
 
-async function * build (this: Client): AsyncIterableIterator<void> {
+async function* recruit(this: Client): AsyncIterableIterator<void> {
 
 }
 
-async function * overwork (this: Client): AsyncIterableIterator<void> {
+async function* build(this: Client): AsyncIterableIterator<void> {
 
 }
 
-async function * marquiseDaylight (this: Client) {
+async function* overwork(this: Client): AsyncIterableIterator<void> {
+
+}
+
+async function* marquiseDaylight(this: Client) {
   switch (this.game.phase) {
-  // @ts-ignore: falls through
-  case 0:
-    yield * daylight.call(this, Faction.marquise);
-  // @ts-ignore: falls through
-  case 1:
-    yield * craft.call(this, [], Faction.marquise);
+    // @ts-ignore: falls through
+    case 0:
+      yield* daylight.call(this, Faction.marquise);
+    // @ts-ignore: falls through
+    case 1:
+      yield* craft.call(this, [], Faction.marquise);
     // TODO: crafting
     /* falls through */
-  case 2:
-  default:
-    let allowedActions = this.game.phase + 3;
-    while (this.game.phase < allowedActions) {
-      yield * accept.call(this, battle, march, recruit, build, overwork, 'skip');
-      this.game.nextPhase();
-      if (this.game.phase === allowedActions && this.game.factionData.marquise!.hand.some(card => card.suit === Suit.bird)) {
-        if (EXTRA_ACTION === (yield * accept.call(this, extraAction, 'done'))) {
-          ++allowedActions;
+    case 2:
+    default:
+      let allowedActions = this.game.phase + 3;
+      while (this.game.phase < allowedActions) {
+        yield* accept.call(this, battle, march, recruit, build, overwork, 'skip');
+        this.game.nextPhase();
+        if (this.game.phase === allowedActions && this.game.factionData.marquise!.hand.some(card => card.suit === Suit.bird)) {
+          if (EXTRA_ACTION === (yield* accept.call(this, extraAction, 'done'))) {
+            ++allowedActions;
+          }
         }
       }
-    }
   }
 }
 
-async function * marquiseEvening (this: Client) {
-  yield * evening.call(this, Faction.marquise);
+async function* marquiseEvening(this: Client) {
+  yield* evening.call(this, Faction.marquise);
 }
 
-export default async function * marquiseTurn(this: Client) {
+export default async function* marquiseTurn(this: Client) {
   switch (this.game.time) {
-  // @ts-ignore: falls through
-  case Time.birdsong:
-    yield * marquiseBirdsong.call(this);
-  // @ts-ignore: falls through
-  case Time.daylight:
-    yield * marquiseDaylight.call(this);
+    // @ts-ignore: falls through
+    case Time.birdsong:
+      yield* marquiseBirdsong.call(this);
+    // @ts-ignore: falls through
+    case Time.daylight:
+      yield* marquiseDaylight.call(this);
     /* falls through */
-  case Time.evening:
-    yield * marquiseEvening.call(this);
+    case Time.evening:
+      yield* marquiseEvening.call(this);
   }
 }
