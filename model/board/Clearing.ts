@@ -25,6 +25,24 @@ export default class Clearing {
   public pieces: Piece[];
   public ruinItems: Item[];
 
+  constructor(
+    public index: number,
+    public x: number,
+    public y: number,
+    public suit: Suit,
+    public slots: Slot[] = [],
+    public isCorner = false,
+    public acrossCorner: number | null = null,
+  ) {
+    this.buildings = slots.map(slot => slot.isRuin ? Pieces.ruin : null);
+    this.pieces = [];
+    this.ruinItems = [];
+  }
+
+  get hasRuins() {
+    return this.hasBuilding(Pieces.ruin);
+  }
+
   static ruler(game: Game, faction: Faction, clearing: Clearing) {
     const hasGarden = clearing.buildings.some(building => !!building && (
       Piece.equals(building, Pieces.cult.garden_fox)
@@ -59,7 +77,7 @@ export default class Clearing {
       .map(piece => piece && piece.faction)
       .filter((faction): faction is Faction => faction !== null)
       .forEach(faction => scores[faction]++);
-    const best = <[Faction, number]> Object.entries(scores)
+    const best = <[Faction, number]>Object.entries(scores)
       .reduce((best, score) => score[1] > best[1] ? score : best);
     if (best[1] === scores.eyrie && scores.eyrie > 0) {
       return Faction.eyrie;
@@ -70,20 +88,6 @@ export default class Clearing {
 
   static hasBuilding(clearing: Clearing, piece: Piece) {
     return clearing.buildings.some(p => !!p && Piece.equals(piece, p));
-  }
-
-  constructor(
-    public index: number,
-    public x: number,
-    public y: number,
-    public suit: Suit,
-    public slots: Slot[] = [],
-    public isCorner = false,
-    public acrossCorner: number | null = null,
-  ) {
-    this.buildings = slots.map(slot => slot.isRuin ? Pieces.ruin : null);
-    this.pieces = [];
-    this.ruinItems = [];
   }
 
   addPiece(piece: Piece) {
@@ -105,10 +109,6 @@ export default class Clearing {
 
   hasBuilding(piece: Piece) {
     return Clearing.hasBuilding(this, piece);
-  }
-
-  get hasRuins() {
-    return this.hasBuilding(Pieces.ruin);
   }
 
   addRuinItem(item: Item) {

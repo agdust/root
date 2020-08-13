@@ -18,14 +18,14 @@ class GameDoesNotExist extends Rejection {
 
 export default async function * join (this: Client, { name }: { name: string }, threadId: string) {
   const game = games.get(name);
-  if (!game) {
-    throw new GameDoesNotExist(threadId, name);
-  }
+  if (!game) { throw new GameDoesNotExist(threadId, name); }
+
   if (game.turn === null) {
     game.addPlayer(this, threadId);
   } else {
     game.addClient(this, threadId);
   }
+
   this.game = game;
   this.respond(threadId, 'update', game);
   if (typeof game.turn !== 'number') {

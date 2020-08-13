@@ -10,15 +10,15 @@ import {
   rejection as rejectionStore,
 } from '../store';
 
-async function * game (this: Client) {
-  yield * identify.call(this);
-  for (;;) {
+async function* game(this: Client) {
+  yield* identify.call(this);
+  for (; ;) {
     try {
-      const game = yield * chooseGame.call(this);
+      const game = yield* chooseGame.call(this);
       if (game.turn === null) {
-        yield * lobby.call(this);
+        yield* lobby.call(this);
       } else {
-        yield * start.call(this);
+        yield* start.call(this);
       }
     } catch (e) {
       if (e instanceof Leave) {

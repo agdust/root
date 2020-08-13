@@ -27,7 +27,7 @@ export default async function * setupCult(this: Client) {
       ));
     }
   }
-  // pick intial outcast
+  // pick initial outcast
   prompts.set({
     text: 'prompt-choose-first-outcast',
     outcast: true,
