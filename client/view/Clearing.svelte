@@ -14,11 +14,13 @@ export let ruinItems;
 export let scale;
 
 function intersects(placement, forces) {
-  return forces
-    .some(({ x, y, r }) => Math.abs(placement.x - x) < placement.r + r
-                     && Math.abs(placement.y - y) < placement.r + r
-    )
+  return forces.some(({ x, y, r }) => {
+    return Math.abs(placement.x - x) < placement.r + r &&
+      Math.abs(placement.y - y) < placement.r + r;
+  });
 }
+
+// let arrangedPieces;
 
 $: arrangedPieces = ((pieces) => {
   // create an RNG with the same seed every time to make a predictable arragment per clearing
@@ -26,7 +28,11 @@ $: arrangedPieces = ((pieces) => {
   const forces = slots.map(({ x, y }) => ({ x, y, r: 70 }));
   forces.push({ x, y, r: 30 });
   const arrangedPieces = pieces.map((piece, i) => {
-    const rngForces = new Array(i).fill(0).map(() => ({ x: x + prng.rand(-325, 325), y: y + prng.rand(-325, 325), r: 0 }));
+    const rngForces = new Array(i).fill(0).map(() => ({
+      x: x + prng.rand(-325, 325),
+      y: y + prng.rand(-325, 325),
+      r: 0,
+    }));
     const effectiveForces = [...forces, ...rngForces];
     const netForce = effectiveForces
       .map(force => ({ x: x - force.x, y: y - force.y }))
@@ -49,15 +55,15 @@ function image(piece) {
 </script>
 
 {#each buildings as building, i}
-  {#if building !== null}
-    <Token square
-      image={image(building)}
-      x={slots[i].x * scale}
-      y={slots[i].y * scale}
-      {scale}
-      stack={PieceT.equals(building, Pieces.ruin) ? ruinItems + 1 : 1} />
-  {/if}
+    {#if building !== null}
+      <Token square
+             image={image(building)}
+             x={slots[i].x * scale}
+             y={slots[i].y * scale}
+             {scale}
+             stack={PieceT.equals(building, Pieces.ruin) ? ruinItems + 1 : 1}/>
+    {/if}
 {/each}
 {#each arrangedPieces as { x, y, piece }}
-  <Piece {piece} x={x * scale} y={y * scale} {scale} />
+  <Piece {piece} x={x * scale} y={y * scale} {scale}/>
 {/each}
