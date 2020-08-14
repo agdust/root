@@ -1,8 +1,7 @@
 import Faction from '../Faction';
 import { Character } from '../Character';
-import Game from '../Game'
-import { Item } from '../Item'
-import { Card } from '../Card'
+import Game from '../Game';
+import { Item } from '../Item';
 import Rejection from '../Rejection';
 import PlayablePlayer from '../PlayablePlayer';
 
@@ -10,8 +9,8 @@ class CharacterAlreadyTaken extends Rejection {
   constructor(threadId: string, character: Character) {
     super(threadId, {
       key: 'rejection-character-already-taken',
-      params: { character: `vagbond-character-${character.name}` },
-    })
+      params: { character: `vagabond-character-${character.name}` },
+    });
   }
 }
 
@@ -33,7 +32,7 @@ export default class Vagabond extends PlayablePlayer {
   ruinItems: Item[];
 
   constructor(public faction: Faction.vagabond | Faction.vagabond2) {
-    super()
+    super();
     this.character = null;
     this.items = {
       refreshed: [],
