@@ -1,9 +1,10 @@
 <script>
-import Box from './component/Box.svelte';
-import Text from './component/Text.svelte';
+import Box from '../component/Box.svelte';
+import Text from '../component/Text.svelte';
 import CreateGameForm from './CreateGameForm.svelte';
 import JoinGameForm from './JoinGameForm.svelte';
-import { errorMessage } from '../store';
+import { errorMessage } from '../../store';
+
 let state = null;
 
 export let client;
@@ -15,17 +16,17 @@ export let client;
       <button
         class='button'
         on:click={() => state = 'create'}>
-        <Text text='create-new-game' />
+        <Text text='create-new-game'/>
       </button>
       <button
         class='button'
         on:click={() => state = 'join'}>
-        <Text text='join-existing-game' />
+        <Text text='join-existing-game'/>
       </button>
     {:else if state === 'create'}
-      <CreateGameForm {client} on:back={() => state = null} />
+      <CreateGameForm {client} on:back={() => state = null}/>
     {:else if state === 'join'}
-      <JoinGameForm {client} on:back={() => state = null} />
+      <JoinGameForm {client} on:back={() => state = null}/>
     {/if}
   </div>
 </Box>

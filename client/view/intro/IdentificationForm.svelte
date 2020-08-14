@@ -1,7 +1,7 @@
 <script>
-import Box from './component/Box.svelte';
-import Text from './component/Text.svelte';
-import Message from '../../model/Message';
+import Box from '../component/Box.svelte';
+import Text from '../component/Text.svelte';
+import Message from '../../../model/Message';
 
 let name = '';
 export let client;

@@ -1,7 +1,7 @@
 <script>
 import { screen } from './store';
 import Client from '../model/Client';
-import Cover from './view/Cover.svelte';
+import Cover from './view/intro/Cover.svelte';
 import Table from './view/Table.svelte';
 
 export let client;

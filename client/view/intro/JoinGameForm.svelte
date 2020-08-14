@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import Text from './component/Text.svelte';
-import Message from '../../model/Message';
+import Text from '../component/Text.svelte';
+import Message from '../../../model/Message';
 
 const dispatch = createEventDispatcher();
 

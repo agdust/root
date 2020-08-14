@@ -1,8 +1,8 @@
 <script>
 import { fly } from 'svelte/transition';
-import { username, game } from '../store';
-import logo from '../image/logo.png';
-import Loading from './component/Loading.svelte';
+import { username, game } from '../../store';
+import logo from '../../image/logo.png';
+import Loading from '../component/Loading.svelte';
 import IdentificationForm from './IdentificationForm.svelte';
 import ChooseGameForm from './ChooseGameForm.svelte';
 import Lobby from './Lobby.svelte';
@@ -14,7 +14,7 @@ export let client;
 .cover {
   width: 100vw;
   height: 100vh;
-  background-image: url('../image/cover.jpg');
+  background-image: url('../../image/cover.jpg');
   background-size: cover;
   background-position: center;
   font-family: var(--font-family--body);
