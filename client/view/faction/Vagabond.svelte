@@ -8,6 +8,8 @@ import Token from '../Token.svelte';
 import Deck from '../Deck.svelte';
 
 export let faction;
+let scale, card, craftedItems, relationships, hostile, satchel, damagedItems;
+let tea, coin, bag, relationshipFactions, hostileFactions, satchelItems;
 
 export let width, height;
 $: scale = Math.min(width / 2252, height / 1749);
@@ -40,7 +42,10 @@ $: relationshipFactions = Object
   .entries($game.factionData[faction].relations)
   .filter(([faction]) => faction in $game.factionData)
   .filter(([, l]) => l !== null)
-  .reduce((factions, [faction, l]) => ({ ...factions, [l]: [...(factions[l] || []), faction] }), {});
+  .reduce((factions, [faction, l]) => ({
+    ...factions,
+    [l]: [...(factions[l] || []), faction],
+  }), {});
 $: hostileFactions = Object.entries($game.factionData[faction].relations)
   .filter(([faction]) => faction in $game.factionData)
   .filter(([, l]) => l === null)
@@ -50,8 +55,9 @@ $: hostileFactions = Object.entries($game.factionData[faction].relations)
 <div class='container'>
   <div class={`board ${faction}`} style={`width: ${2252 * scale}px; height: ${1749 * scale}px`}>
     {#if $game.factionData[faction].character}
-      <div class='character' style={`transform: translate(${card.x}px, ${card.y}px); width: ${517 * scale}px; height: ${702 * scale}px`}>
-        <Deck cardImage={characterImages[$game.factionData[faction].character]} cardCount={1} />
+      <div class='character'
+           style={`transform: translate(${card.x}px, ${card.y}px); width: ${517 * scale}px; height: ${702 * scale}px`}>
+        <Deck cardImage={characterImages[$game.factionData[faction].character]} cardCount={1}/>
       </div>
     {/if}
     {#each Object.entries(relationshipFactions) as [level, factions]}
@@ -63,8 +69,9 @@ $: hostileFactions = Object.entries($game.factionData[faction].relations)
           transform: scale(${scale});
         `}>
         {#each factions as faction, i}
-          <div style={i === 0 ? '' : `margin-top: ${Math.min(5, (394 - (factions.length * 146)) / (factions.length - 1))}px;`}>
-            <Token square block image={tokenImages[`vagabond-relationship_${faction}`]} />
+          <div
+            style={i === 0 ? '' : `margin-top: ${Math.min(5, (394 - (factions.length * 146)) / (factions.length - 1))}px;`}>
+            <Token square block image={tokenImages[`${faction}-icon`]}/>
           </div>
         {/each}
       </div>
@@ -77,50 +84,53 @@ $: hostileFactions = Object.entries($game.factionData[faction].relations)
         transform: scale(${scale});
       `}>
       {#each hostileFactions as faction, i}
-        <div style={i === 0 ? '' : `margin-left: ${Math.min(5, (439 - (hostileFactions.length * 146)) / (hostileFactions.length - 1))}px;`}>
-          <Token square block image={tokenImages[`vagabond-relationship_${faction}`]} />
+        <div
+          style={i === 0 ? '' : `margin-left: ${Math.min(5, (439 - (hostileFactions.length * 146)) / (hostileFactions.length - 1))}px;`}>
+          <Token square block image={tokenImages[`${faction}-icon`]}/>
         </div>
       {/each}
     </div>
-    <div class='items refreshed' style={`left: ${satchel.x}px; top: ${satchel.y}px; transform: scale(${scale * 0.88})`}>
+    <div class='items refreshed'
+         style={`left: ${satchel.x}px; top: ${satchel.y}px; transform: scale(${scale * 0.88})`}>
       {#each satchelItems as itemInfo}
         <div class={`item ${itemInfo.state}`}>
-          <Token square block image={tokenImages[itemInfo.item.key]} radius={31} />
+          <Token square block image={tokenImages[itemInfo.item.key]} radius={31}/>
         </div>
       {/each}
     </div>
-    <div class='items damaged' style={`left: ${satchel.damaged.x}px; top: ${satchel.damaged.y}px; transform: scale(${scale * 0.88})`}>
+    <div class='items damaged'
+         style={`left: ${satchel.damaged.x}px; top: ${satchel.damaged.y}px; transform: scale(${scale * 0.88})`}>
       {#each damagedItems as item}
         <div
           class='item exhausted'
           style={i === 0 ? '' : `margin-left: ${Math.min(5, (586 - (damagedItems.length * 146)) / (damagedItems.length - 1))}px;`}>
-          <Token square block image={tokenImages[item.key]} radius={31} />
+          <Token square block image={tokenImages[item.key]} radius={31}/>
         </div>
       {/each}
     </div>
     {#each new Array(tea).fill(0) as _, i}
       <Token square
-        x={satchel.tea.x + satchel.tea.dx * i}
-        y={satchel.tea.y}
-        scale={scale * 0.88}
-        image={tokenImages[`item-${Item.tea}`]}
-        radius={31} />
+             x={satchel.tea.x + satchel.tea.dx * i}
+             y={satchel.tea.y}
+             scale={scale * 0.88}
+             image={tokenImages[`item-${Item.tea}`]}
+             radius={31}/>
     {/each}
     {#each new Array(coin).fill(0) as _, i}
       <Token square
-        x={satchel.coin.x + satchel.coin.dx * i}
-        y={satchel.coin.y}
-        scale={scale * 0.88}
-        image={tokenImages[`item-${Item.coin}`]}
-        radius={31} />
+             x={satchel.coin.x + satchel.coin.dx * i}
+             y={satchel.coin.y}
+             scale={scale * 0.88}
+             image={tokenImages[`item-${Item.coin}`]}
+             radius={31}/>
     {/each}
     {#each new Array(bag).fill(0) as _, i}
       <Token square
-        x={satchel.bag.x + satchel.bag.dx * i}
-        y={satchel.bag.y}
-        scale={scale * 0.88}
-        image={tokenImages[`item-${Item.bag}`]}
-        radius={31} />
+             x={satchel.bag.x + satchel.bag.dx * i}
+             y={satchel.bag.y}
+             scale={scale * 0.88}
+             image={tokenImages[`item-${Item.bag}`]}
+             radius={31}/>
     {/each}
   </div>
 </div>
@@ -178,7 +188,7 @@ $: hostileFactions = Object.entries($game.factionData[faction].relations)
   height: 163px;
 }
 
-.relationships.hostile , .items.damaged {
+.relationships.hostile, .items.damaged {
   flex-direction: row;
   padding-top: 0;
   padding-left: 20px;
