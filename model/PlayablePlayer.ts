@@ -1,5 +1,6 @@
 import { Card } from './Card';
 import { Item } from './Item';
+import Suit from './Suit';
 
 export default class PlayablePlayer {
   hand: Card[];
@@ -14,5 +15,13 @@ export default class PlayablePlayer {
     this.dominance = null;
     this.craftedEffects = [];
     this.craftedItems = [];
+  }
+
+  hasSuitableCard(suit: Suit) {
+    return this.hand.some(Card.isSuitableFunc(suit));
+  }
+
+  hasSuitableStrict(suit: Suit) {
+    return this.hand.some(Card.isSuitableFunc(suit));
   }
 }
