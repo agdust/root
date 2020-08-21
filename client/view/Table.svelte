@@ -17,8 +17,8 @@ $: expanded = $prompts && ($prompts.prices || $prompts.outcast);
   <div class='board' style={`width: ${boardWidth}px`}>
     <Board tableWidth={boardWidth} tableHeight={boardHeight} {client} />
   </div>
-  <div class='play-area' class:expanded>
-    <PlayArea tableWidth={boardWidth} tableHeight={boardHeight} {client} />
+  <div class={`play-area ${$game.players[$username].faction}`} class:expanded>
+    <PlayArea tableWidth={boardWidth} tableHeight={boardHeight} {client}/>
   </div>
   <div class='prompts'>
     <TablePrompts {client} />
@@ -56,7 +56,23 @@ $: expanded = $prompts && ($prompts.prices || $prompts.outcast);
   width: calc(100% - 350px);
   transform: translateX(-350px);
   transition: transform 0.2s;
-  background-color: blue;
+  background-size: 20%;
+}
+
+.play-area.marquise {
+  background-image: url('../image/pattern-marquise.jpg');
+}
+
+.play-area.eyrie {
+  background-image: url('../image/pattern-eyrie.jpg');
+}
+
+.play-area.alliance {
+  background-image: url('../image/pattern-alliance.jpg');
+}
+
+.play-area.vagabond {
+  background-image: url('../image/pattern-vagabond.jpg');
 }
 
 .play-area:hover, .play-area.expanded {
