@@ -24,12 +24,6 @@ export let client;
 .lang-buttons__button {
   display: inline-block;
   padding: 5px 10px;
-  cursor: pointer;
-  font-family: var(--font-family--display);
-  color: var(--color--accent);
-  background-color: var(--color--background);
-  border: 1px solid var(--color--accent);
-  font-size: 16px;
 }
 
 .lang-buttons__button + .lang-buttons__button {
@@ -67,7 +61,7 @@ export let client;
 
       <div class="lang-buttons">
         {#each Object.keys(Langs) as lang}
-          <button class='button lang-buttons__button'
+          <button class='lang-buttons__button'
                   on:click={() => setLang(lang)}>
             { Langs[lang] }
           </button>
