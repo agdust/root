@@ -5,11 +5,13 @@ import Text from './component/Text.svelte';
 export let cards;
 export let showEmpty = false;
 
+let cardCount, boxShadow;
+
 $: cardCount = cards.length;
 
 const color = [
   'rgb(148, 142, 118)',
-  'rgb(182, 176, 150)'
+  'rgb(182, 176, 150)',
 ];
 
 $: boxShadow = new Array(Math.ceil(cardCount / 2)).fill(0)
@@ -18,10 +20,16 @@ $: boxShadow = new Array(Math.ceil(cardCount / 2)).fill(0)
 </script>
 
 {#if cardCount}
-  <div class='card' style={`background-image: url(${cards[cards.length - 1]}); box-shadow: ${boxShadow}; transform: translateY(-${Math.ceil(cardCount / 2)}px)`} />
+  <div class='card'
+       style={`
+         background-image: url(${cards[cards.length - 1]});
+         box-shadow: ${boxShadow};
+         transform: translateY(-${Math.ceil(cardCount / 2)}px)
+       `}
+  ></div>
 {:else if showEmpty}
   <div class='card empty'>
-    <Text text='empty' />
+    <Text text='empty'/>
   </div>
 {/if}
 

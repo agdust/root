@@ -11,6 +11,7 @@ import Pile from '../Pile.svelte';
 import CraftedItems from './CraftedItems.svelte';
 
 let isMe = $game.players[$username].faction === Faction.alliance;
+let scale, card, craftedItems, base, sympathy, officers;
 export let width, height;
 $: scale = Math.min(width / 2252, height / 1749);
 $: base = { x: 1301 * scale, y: 1053 * scale, dx: 154 * scale };
@@ -23,25 +24,26 @@ $: craftedItems = { x: 1528 * scale, y: 280 * scale, width: 555 };
 <div class='container'>
   <div class='board' style={`width: ${2252 * scale}px; height: ${1749 * scale}px`}>
     {#if $game.factionData.alliance.base_fox}
-      <Piece piece={Pieces.alliance.base_fox} x={base.x - base.dx * 2} y={base.y} {scale} />
+      <Piece piece={Pieces.alliance.base_fox} x={base.x - base.dx * 2} y={base.y} {scale}/>
     {/if}
     {#if $game.factionData.alliance.base_rabbit}
-      <Piece piece={Pieces.alliance.base_rabbit} x={base.x - base.dx} y={base.y} {scale} />
+      <Piece piece={Pieces.alliance.base_rabbit} x={base.x - base.dx} y={base.y} {scale}/>
     {/if}
     {#if $game.factionData.alliance.base_mouse}
-      <Piece piece={Pieces.alliance.base_mouse} x={base.x} y={base.y} {scale} />
+      <Piece piece={Pieces.alliance.base_mouse} x={base.x} y={base.y} {scale}/>
     {/if}
     {#each new Array($game.factionData.alliance.sympathy).fill(0) as _, i}
-      <Piece piece={Pieces.alliance.sympathy} x={sympathy.x - i * sympathy.dx} y={sympathy.y + (i % 2) * sympathy.dy} {scale} />
+      <Piece piece={Pieces.alliance.sympathy} x={sympathy.x - i * sympathy.dx}
+             y={sympathy.y + (i % 2) * sympathy.dy} {scale}/>
     {/each}
     {#if $game.factionData.alliance.supporters.length}
-      <div class='supporters' style={`transform: translate(${card.x}px, ${card.y}px); width: ${517 * scale}px; height: ${702 * scale}px`}>
+      <div class='supporters'
+           style={`transform: translate(${card.x}px, ${card.y}px); width: ${517 * scale}px; height: ${702 * scale}px`}>
         {#if isMe}
-          <Pile cards={$game.factionData.alliance.supporters.map(card => cardImages[card.key])} />
+          <Pile cards={$game.factionData.alliance.supporters.map(card => cardImages[card.key])}/>
         {:else}
-          <Deck
-            cardImage={cardBack}
-            cardCount={$game.factionData.alliance.supporters.length} />
+          <Deck cardImage={cardBack}
+                cardCount={$game.factionData.alliance.supporters.length}/>
         {/if}
       </div>
     {/if}
@@ -56,11 +58,11 @@ $: craftedItems = { x: 1528 * scale, y: 280 * scale, width: 555 };
       `}>
       {#each $game.factionData.alliance.officers as _}
         <div class='officer'>
-          <Piece block piece={Piece.alliance.warrior} scale={0.88} />
+          <Piece block piece={Piece.alliance.warrior} scale={0.88}/>
         </div>
       {/each}
     </div>
-    <CraftedItems {...craftedItems} {scale} items={$game.factionData.alliance.craftedItems} />
+    <CraftedItems {...craftedItems} {scale} items={$game.factionData.alliance.craftedItems}/>
   </div>
 </div>
 
@@ -103,7 +105,8 @@ $: craftedItems = { x: 1528 * scale, y: 280 * scale, width: 555 };
 .officer {
   margin: -50px 0 0 -50px;
 }
-.officer:first {
+
+.officer:first-of-type {
   margin: -50px 0 0 0;
 }
 </style>

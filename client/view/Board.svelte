@@ -12,6 +12,8 @@ export let tableWidth, tableHeight;
 
 const maxScale = 1;
 let targetScale = 0;
+let minScale, scale, pan;
+
 $: minScale = Math.max(tableWidth / boardWidth, tableHeight / boardHeight);
 $: scale = Math.min(Math.max(minScale, targetScale), maxScale);
 

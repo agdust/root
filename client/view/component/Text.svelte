@@ -4,6 +4,7 @@ import loc from '../../localization';
 export let text;
 export let params = {};
 
+let translation;
 $: translation = loc(text, params);
 </script>
 

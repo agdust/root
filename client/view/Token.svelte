@@ -9,6 +9,8 @@ export let round = false;
 export let block = false;
 export let stack = 1;
 
+let boxShadow;
+
 $: boxShadow = new Array(stack)
   .fill(0)
   .map((_, i) => `0 ${8 * i + 3}px 0 rgb(179, 174, 166), 0 ${8 * i + 7}px 0 rgb(198, 185, 165), 0 ${8 * i + 8}px 0 rgb(113, 107, 97)`)
@@ -19,7 +21,7 @@ $: boxShadow = new Array(stack)
 {#if stack > 0}
   {#if square}
     <div class='token square'
-      style={`
+         style={`
         position: ${block ? 'relative' : 'absolute'};
         background-image: url(${image});
         left: ${x}px;
@@ -30,10 +32,10 @@ $: boxShadow = new Array(stack)
           : `translate(-50%, -50%) translateY(-${8 * stack * scale}px) scale(${scale})`
         };
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6) inset, ${boxShadow};
-      `} />
+      `}></div>
   {:else if round}
     <div class='token round'
-      style={`
+         style={`
         position: ${block ? 'relative' : 'absolute'};
         background-image: url(${image});
         left: ${x}px;
@@ -43,7 +45,7 @@ $: boxShadow = new Array(stack)
           : `translate(-50%, -50%) translateY(-${8 * stack * scale}px) scale(${scale})`
         };
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6) inset, ${boxShadow};
-      `} />
+      `}></div>
   {/if}
 {/if}
 

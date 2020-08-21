@@ -5,12 +5,13 @@ import tokenImages from '../../image/token/token.*.png';
 export let items, x, y, width, scale;
 </script>
 
-<div class='items' style={`left: ${x}px; top: ${y}px; width: ${width}px; transform: scale(${scale})`}>
-  {#each items as item}
+<div class='items'
+     style={`left: ${x}px; top: ${y}px; width: ${width}px; transform: scale(${scale})`}>
+  {#each items as item, i}
     <div
       class='item'
       style={i === 0 ? '' : `margin-left: ${Math.min(5, (width - (items.length * 146)) / (items.length - 1))}px;`}>
-      <Token square block image={tokenImages[item.key]} radius={31} />
+      <Token square block image={tokenImages[item.key]} radius={31}/>
     </div>
   {/each}
 </div>

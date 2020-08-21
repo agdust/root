@@ -9,24 +9,34 @@ import Deck from '../Deck.svelte';
 import CraftedItems from './CraftedItems.svelte';
 
 export let width, height;
+let scale, card, craftedItems, tile, decree;
+
 $: scale = Math.min(width / 2252, height / 1749);
 $: tile = { x: 2085 * scale, y: 806 * scale, dx: 159 * scale };
 $: card = { x: 1654 * scale, y: 976 * scale };
 $: craftedItems = { x: 1531 * scale, y: 501 * scale, width: 555 };
-$: decree = { y: 133 * scale, recruit: 0, move: 567 * scale, battle: 1153 * scale, build: 1733 * scale };
+$: decree = {
+  y: 133 * scale,
+  recruit: 0,
+  move: 567 * scale,
+  battle: 1153 * scale,
+  build: 1733 * scale,
+};
 </script>
 
 <div class='container'>
   <div class='board' style={`width: ${2252 * scale}px; height: ${1749 * scale}px`}>
     {#each new Array($game.factionData.eyrie.roost).fill(0) as _, i}
-      <Token square image={images[Piece.eyrie.roost.key]} x={tile.x - tile.dx * i} y={tile.y} {scale} />
+      <Token square image={images[Piece.eyrie.roost.key]} x={tile.x - tile.dx * i} y={tile.y}
+             {scale}/>
     {/each}
     {#if $game.factionData.eyrie.leader}
-      <div class='leader' style={`transform: translate(${card.x}px, ${card.y}px); width: ${517 * scale}px; height: ${702 * scale}px`}>
-        <Deck cardImage={leaderImages[$game.factionData.eyrie.leader]} cardCount={1} />
+      <div class='leader'
+           style={`transform: translate(${card.x}px, ${card.y}px); width: ${517 * scale}px; height: ${702 * scale}px`}>
+        <Deck cardImage={leaderImages[$game.factionData.eyrie.leader]} cardCount={1}/>
       </div>
     {/if}
-    <CraftedItems {...craftedItems} {scale} items={$game.factionData.eyrie.craftedItems} />
+    <CraftedItems {...craftedItems} {scale} items={$game.factionData.eyrie.craftedItems}/>
   </div>
 </div>
 

@@ -1,12 +1,16 @@
 <script>
+import Text from './component/Text.svelte';
+
 export let cardImage;
 export let cardCount;
 export let showEmpty = false;
 
 const color = [
   'rgb(148, 142, 118)',
-  'rgb(182, 176, 150)'
+  'rgb(182, 176, 150)',
 ];
+
+let boxShadow;
 
 $: boxShadow = new Array(Math.ceil(cardCount / 2)).fill(0)
   .map((_, i) => `0 ${i + 1}px 0 ${color[i % 2]}`)
@@ -14,10 +18,16 @@ $: boxShadow = new Array(Math.ceil(cardCount / 2)).fill(0)
 </script>
 
 {#if cardCount}
-  <div class='card' style={`background-image: url(${cardImage}); box-shadow: ${boxShadow}; transform: translateY(-${Math.ceil(cardCount / 2)}px)`} />
+  <div class='card'
+       style={`
+        background-image: url(${cardImage});
+        box-shadow: ${boxShadow};
+        transform: translateY(-${Math.ceil(cardCount / 2)}px)
+       `}>
+  </div>
 {:else if showEmpty}
   <div class='card empty'>
-    <Text text='empty' />
+    <Text text='empty'/>
   </div>
 {/if}
 
