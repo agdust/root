@@ -5,7 +5,7 @@ import PlayArea from './PlayArea.svelte';
 import FactionPicker from './FactionPicker.svelte';
 import TablePrompts from './TablePrompts.svelte';
 
-let windowWidth, windowHeight;
+let windowWidth, windowHeight, boardHeight, boardWidth, expanded;
 $: boardHeight = windowHeight;
 $: boardWidth = windowWidth - 350;
 
@@ -14,23 +14,32 @@ $: expanded = $prompts && ($prompts.prices || $prompts.outcast);
 </script>
 
 <div class='table'>
+  <div class="card-buttons">
+    <button class="card-buttons__button">Discard {$game.discards.length}</button>
+    <button class="card-buttons__button">
+      Deck
+      {#if $game.cards > 0 }
+        { $game.cards }
+      {/if}
+    </button>
+  </div>
   <div class='board' style={`width: ${boardWidth}px`}>
-    <Board tableWidth={boardWidth} tableHeight={boardHeight} {client} />
+    <Board tableWidth={boardWidth} tableHeight={boardHeight} {client}/>
   </div>
   <div class={`play-area ${$game.players[$username].faction}`} class:expanded>
     <PlayArea tableWidth={boardWidth} tableHeight={boardHeight} {client}/>
   </div>
   <div class='prompts'>
-    <TablePrompts {client} />
+    <TablePrompts {client}/>
   </div>
 </div>
 {#if $game.players[$username].faction === null}
-  <FactionPicker {client} />
+  <FactionPicker {client}/>
 {/if}
 
 <svelte:window
   bind:innerWidth={windowWidth}
-  bind:innerHeight={windowHeight} />
+  bind:innerHeight={windowHeight}/>
 
 <style>
 .table {
@@ -85,5 +94,21 @@ $: expanded = $prompts && ($prompts.prices || $prompts.outcast);
   height: 100%;
   z-index: 2;
   pointer-events: none;
+}
+
+.card-buttons {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 100;
+}
+
+.card-buttons__button {
+  width: 130px;
+  display: block;
+}
+
+.card-buttons__button + .card-buttons__button {
+  margin-top: 5px;
 }
 </style>
