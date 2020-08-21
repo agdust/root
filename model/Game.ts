@@ -22,6 +22,8 @@ import Marquise from './factionData/Marquise';
 import MarquiseBot from './factionData/MarquiseBot';
 import Riverfolk from './factionData/Riverfolk';
 import Vagabond from './factionData/Vagabond';
+import { Dict } from '../types/common';
+import { keyBy } from '../client/util/key-by';
 
 type Assignment = 'auto' | 'manual';
 export type Settings = {
@@ -111,7 +113,7 @@ export default class Game {
     riverfolk?: Riverfolk,
     // marquise_bot?: MarquiseBot,
   };
-  players: { [username: string]: Player };
+  players: Dict<Player>;
   turn: number | null;
   time: Time;
   phase: number;
@@ -189,6 +191,22 @@ export default class Game {
     return Object.values(this._clients)
       .map(clientId => clients.get(clientId))
       .filter((client: Client | undefined): client is Client => !!client);
+  }
+
+  get playersByFaction(): Dict<Player> {
+    return keyBy<Player>(Object.values(this.players), 'faction');
+  }
+
+  get activePlayerName(): string | null {
+    if (!this.turn) { return null; }
+
+    return this.playerNames[this.turn % this.playerNames.length];
+  }
+
+  get activePlayer(): Player | null {
+    if (!this.activePlayerName) { return null; }
+
+    return this.players[this.activePlayerName];
   }
 
   get isFull() {
