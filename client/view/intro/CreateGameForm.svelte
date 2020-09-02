@@ -4,6 +4,7 @@ import Text from '../component/Text.svelte';
 import Message from '../../../model/Message';
 import GameMap from '../../../model/GameMap';
 import Faction from '../../../model/Faction';
+import factionIcons from '../../image/token/token.*-icon.png';
 
 const dispatch = createEventDispatcher();
 
@@ -11,8 +12,9 @@ let name = '';
 let factions = [Faction.marquise, Faction.eyrie, Faction.alliance, Faction.vagabond];
 let assignment = 'auto';
 let map = 'forest';
-$: valid = name
-  && factions.length >= 2;
+let valid, settings;
+
+$: valid = name && factions.length >= 2;
 // marquise cannot fight their own bot
 // && !(factions.includes(Faction.marquise) && factions.includes(Faction.marquise_bot));
 $: settings = { factions, assignment, map };
@@ -42,19 +44,24 @@ function create() {
   <Text text='options'/>
 </h1>
 <div class='options'>
-  <fieldset>
+  <fieldset class="factions">
     <legend>
       <Text text='available-factions'/>
     </legend>
-      {#each Object.values(Faction) as faction}
-        <label>
+    {#each Object.values(Faction) as faction}
+      {#if ['cult', 'riverfolk', 'vagabond2'].indexOf(faction) === -1}
+        <label class="faction">
           <input
             type='checkbox'
+            class="faction__checkbox"
             bind:group={factions}
-            value={faction}/>
+            value={faction}
+          />
+          <img src={factionIcons[faction]} class="faction__icon"/>
           <Text text={faction} params={{ form: 'long' }}/>
         </label>
-      {/each}
+      {/if}
+    {/each}
   </fieldset>
   <div class='flex'>
     <fieldset>
@@ -72,11 +79,12 @@ function create() {
       <legend>
         <Text text='map'/>
       </legend>
-        {#each Object.values(GameMap) as gameMap}
-          <label><input type='radio' bind:group={map} value={gameMap}/>
-            <Text text={gameMap}/>
-          </label>
-        {/each}
+      {#each Object.values(GameMap) as gameMap}
+        <label>
+          <input type='radio' bind:group={map} value={gameMap}/>
+          <Text text={gameMap}/>
+        </label>
+      {/each}
     </fieldset>
   </div>
 </div>
@@ -141,7 +149,33 @@ function create() {
   align-items: flex-start;
 }
 
-label {
-  display: block;
+.factions {
+  padding: 10px 20px 10px 15px;
+}
+
+.faction {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.faction__checkbox {
+  display: none;
+}
+
+.faction__checkbox:checked + .faction__icon {
+  opacity: 1;
+  border-color: black;
+}
+
+.faction__icon {
+  opacity: 0.5;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border: 2px solid transparent;
+  border-radius: 10px;
 }
 </style>
