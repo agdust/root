@@ -5,4 +5,6 @@
 /server/**/*.d.ts
 /model/**/*.js
 /model/**/*.d.ts
+/client/**/*.js
+/client/**/*.d.ts
 /.idea/
