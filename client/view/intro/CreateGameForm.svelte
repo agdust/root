@@ -75,7 +75,7 @@ function create() {
         <Text text='choose'/>
       </label>
     </fieldset>
-    <fieldset>
+    <!--<fieldset>
       <legend>
         <Text text='map'/>
       </legend>
@@ -85,7 +85,7 @@ function create() {
           <Text text={gameMap}/>
         </label>
       {/each}
-    </fieldset>
+    </fieldset>-->
   </div>
 </div>
 <button
@@ -144,13 +144,21 @@ function create() {
   font-size: 16px;
 }
 
+fieldset {
+  margin-bottom: 10px;
+}
+
 .options {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .factions {
   padding: 10px 20px 10px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
 }
 
 .faction {
@@ -159,6 +167,7 @@ function create() {
   align-items: center;
   margin-bottom: 5px;
   cursor: pointer;
+  width: 48%;
 }
 
 .faction__checkbox {
