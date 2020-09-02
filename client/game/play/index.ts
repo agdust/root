@@ -42,9 +42,8 @@ async function * turn(this: Client, faction: Faction): AsyncIterableIterator<voi
 }
 
 export default async function * play(this: Client) {
-  for (; ;) {
+  while (true) {
     const currentPlayer = borrow(game)(game => game!.playerNames[game!.turn! % game!.playerNames.length]);
-    log(currentPlayer);
     if (get(username) === currentPlayer) {
       yield * turn.call(this, get(game)!.players[currentPlayer].faction!);
     } else {

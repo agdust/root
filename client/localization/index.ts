@@ -4,15 +4,17 @@ import enCaFile from '../../localization/en-CA.ftl';
 // @ts-ignore
 import ruRuFile from '../../localization/ru-RU.ftl';
 
-const langCodeLsKey: string = 'langCode';
-let currentLangCode = window.localStorage.getItem(langCodeLsKey) || 'enCA';
-
 export type LangKey = 'enCA' | 'ruRU';
 
 export enum Langs {
   enCA = 'Eng',
   ruRU = 'Rus',
 }
+
+export const defaultLangKey: LangKey = 'enCA';
+
+const langCodeLsKey: string = 'langCode';
+let currentLangCode = window.localStorage.getItem(langCodeLsKey) || defaultLangKey;
 
 export function setLang(langKey: LangKey) {
   window.localStorage.setItem(langCodeLsKey, langKey);

@@ -1,4 +1,4 @@
-type Localizable = string | { key: string, params?: { [key: string]: string | number }};
+export type Localizable = string | { key: string, params?: { [key: string]: string | number } };
 
 export default class Rejection {
   constructor(

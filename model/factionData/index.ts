@@ -13,7 +13,7 @@ class UnknownFaction extends Error {
   }
 }
 
-type FactionData = Alliance | Cult | Eyrie | Marquise | Riverfolk | Vagabond;
+export type FactionData = Alliance | Cult | Eyrie | Marquise | Riverfolk | Vagabond;
 
 export default function createFaction(faction: string): FactionData {
   switch (faction) {
